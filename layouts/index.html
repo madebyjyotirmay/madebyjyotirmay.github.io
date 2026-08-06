@@ -1,0 +1,48 @@
+{{- define "main" }}
+<section class="home-intro">
+  <p class="eyebrow">Notes and observations</p>
+  <h1>Made by Jyotirmay</h1>
+  <p>I write about technology, products, books, history, and the things I am learning.</p>
+</section>
+
+<section class="home-block" aria-labelledby="recent-writing">
+  <div class="home-block-heading">
+    <h2 id="recent-writing">Recent writing</h2>
+    <a href="{{ "posts/" | relURL }}">View all</a>
+  </div>
+  <div class="home-writing-list">
+    {{- $posts := where site.RegularPages "Section" "posts" }}
+    {{- range first 5 $posts.ByDate.Reverse }}
+    <article>
+      <a href="{{ .RelPermalink }}">
+        <span>{{ .Title }}</span>
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02 Jan 2006" }}</time>
+      </a>
+    </article>
+    {{- else }}
+    <p class="empty-state">Nothing published yet.</p>
+    {{- end }}
+  </div>
+</section>
+
+{{- $reading := where hugo.Data.books "status" "reading" }}
+{{- with $reading }}
+<section class="home-block" aria-labelledby="currently-reading">
+  <div class="home-block-heading">
+    <h2 id="currently-reading">Currently reading</h2>
+    <a href="{{ "bookshelf/" | relURL }}">Open bookshelf</a>
+  </div>
+  <div class="home-reading-list">
+    {{- range first 3 . }}
+    <article>
+      <div class="mini-book-cover" aria-hidden="true">{{ substr .title 0 1 }}</div>
+      <div>
+        <h3>{{ .title }}</h3>
+        <p>{{ .author }}</p>
+      </div>
+    </article>
+    {{- end }}
+  </div>
+</section>
+{{- end }}
+{{- end }}

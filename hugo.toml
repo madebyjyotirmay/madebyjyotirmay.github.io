@@ -24,6 +24,7 @@ enableRobotsTXT = true
   disableThemeToggle = false
   ShowReadingTime = true
   ShowShareButtons = true
+  ShareButtons = ['x', 'linkedin', 'ycombinator']
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
   ShowCodeCopyButtons = true

@@ -1,0 +1,61 @@
+{{- define "main" }}
+<header class="page-header bookshelf-header">
+  <p class="eyebrow">Reading life</p>
+  <h1>{{ .Title }}</h1>
+  {{- with .Content }}
+  <div class="post-description">{{ . }}</div>
+  {{- end }}
+</header>
+
+{{- $statuses := slice
+  (dict "key" "reading" "label" "Currently reading")
+  (dict "key" "read" "label" "Finished")
+  (dict "key" "paused" "label" "Paused")
+  (dict "key" "want-to-read" "label" "Want to read")
+}}
+
+<div class="bookshelf" aria-label="Books grouped by reading status">
+  {{- if eq (len hugo.Data.books) 0 }}
+  <p class="empty-state">No books added yet.</p>
+  {{- end }}
+  {{- range $statuses }}
+    {{- $status := . }}
+    {{- $books := where hugo.Data.books "status" $status.key }}
+    {{- with $books }}
+    <section class="bookshelf-section" aria-labelledby="books-{{ $status.key }}">
+      <div class="bookshelf-section-heading">
+        <h2 id="books-{{ $status.key }}">{{ $status.label }}</h2>
+        <span>{{ len . }} {{ cond (eq (len .) 1) "book" "books" }}</span>
+      </div>
+
+      <div class="book-grid">
+        {{- range . }}
+        <article class="book-card">
+          {{- if .link }}<a class="book-card-link" href="{{ .link }}" target="_blank" rel="noopener noreferrer" aria-label="View {{ .title }} by {{ .author }}">{{- end }}
+          <div class="book-cover">
+            {{- if .cover }}
+            <img src="{{ printf "/images/books/%s" .cover | relURL }}" alt="Cover of {{ .title }}" loading="lazy">
+            {{- else }}
+            <div class="book-cover-placeholder" aria-hidden="true">
+              <span>{{ substr .title 0 1 }}</span>
+            </div>
+            {{- end }}
+          </div>
+          <div class="book-details">
+            <h3>{{ .title }}</h3>
+            <p class="book-author">{{ .author }}</p>
+            {{- with .note }}<p class="book-note">{{ . }}</p>{{- end }}
+            <div class="book-meta">
+              {{- with .yearRead }}<span>Read {{ . }}</span>{{- end }}
+              {{- with .rating }}<span>{{ . }} / 5</span>{{- end }}
+            </div>
+          </div>
+          {{- if .link }}</a>{{- end }}
+        </article>
+        {{- end }}
+      </div>
+    </section>
+    {{- end }}
+  {{- end }}
+</div>
+{{- end }}
