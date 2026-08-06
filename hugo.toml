@@ -1,0 +1,69 @@
+baseURL = 'https://madebyjyotirmay.github.io/'
+locale = 'en-us'
+title = 'Made by Jyotirmay'
+theme = 'PaperMod'
+enableRobotsTXT = true
+
+[pagination]
+  pagerSize = 10
+
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
+
+[minify]
+  disableXML = true
+  minifyOutput = true
+
+[params]
+  env = 'production'
+  author = 'Jyotirmay'
+  description = 'Notes on technology, products, books, history, and things I am learning.'
+  keywords = ['AI', 'technology', 'products', 'books', 'history', 'learning']
+  defaultTheme = 'auto'
+  disableThemeToggle = false
+  ShowReadingTime = true
+  ShowShareButtons = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowWordCount = true
+  ShowRssButtonInSectionTermList = true
+  UseHugoToc = true
+
+  [params.homeInfoParams]
+    Title = 'Made by Jyotirmay'
+    Content = 'Notes on technology, products, books, history, and things I am learning.'
+
+[[menu.main]]
+  identifier = 'writing'
+  name = 'Writing'
+  url = '/posts/'
+  weight = 10
+
+[[menu.main]]
+  identifier = 'bookshelf'
+  name = 'Bookshelf'
+  url = '/bookshelf/'
+  weight = 20
+
+[[menu.main]]
+  identifier = 'projects'
+  name = 'Projects'
+  url = '/projects/'
+  weight = 30
+
+[[menu.main]]
+  identifier = 'about'
+  name = 'About'
+  url = '/about/'
+  weight = 40
+
+[[menu.main]]
+  identifier = 'now'
+  name = 'Now'
+  url = '/now/'
+  weight = 50
+
+[outputs]
+  home = ['HTML', 'RSS', 'JSON']
