@@ -1,0 +1,83 @@
+/* Home page: Giverny garden on the left, writing on the right */
+.main:has(.home-split) {
+  max-width: calc(1200px + var(--gap) * 2);
+}
+
+.home-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+}
+
+.home-garden {
+  position: sticky;
+  top: 1rem;
+  padding-top: clamp(1rem, 2.5vw, 1.75rem);
+}
+
+.home-garden-frame {
+  position: relative;
+  height: min(78vh, 720px);
+  min-height: 420px;
+  overflow: hidden;
+  border: 1px solid var(--editorial-rule);
+  border-radius: 16px;
+  background: #f6efe2;
+}
+
+[data-theme="dark"] .home-garden-frame {
+  background: #2b2621;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="auto"] .home-garden-frame {
+    background: #2b2621;
+  }
+}
+
+.home-garden-frame iframe {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.home-garden-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.6rem 0.25rem 0;
+  color: var(--secondary);
+  font-size: 0.85rem;
+}
+
+.home-garden-caption a {
+  flex: 0 0 auto;
+  color: var(--editorial-accent);
+}
+
+.home-content .home-intro {
+  padding-top: clamp(1rem, 2.5vw, 1.75rem);
+}
+
+.home-content .home-intro h1 {
+  font-size: clamp(2.1rem, 3.6vw, 3.2rem);
+}
+
+@media (max-width: 900px) {
+  .home-split {
+    grid-template-columns: 1fr;
+  }
+
+  .home-garden {
+    position: static;
+  }
+
+  .home-garden-frame {
+    height: 62vh;
+    min-height: 360px;
+  }
+}
