@@ -21,19 +21,6 @@
   height: min(78vh, 720px);
   min-height: 420px;
   overflow: hidden;
-  border: 1px solid var(--editorial-rule);
-  border-radius: 16px;
-  background: #f6efe2;
-}
-
-[data-theme="dark"] .home-garden-frame {
-  background: #2b2621;
-}
-
-@media (prefers-color-scheme: dark) {
-  [data-theme="auto"] .home-garden-frame {
-    background: #2b2621;
-  }
 }
 
 .home-garden-frame iframe {
@@ -77,7 +64,7 @@
   }
 
   .home-garden-frame {
-    height: 62vh;
+    height: min(62vh, 92vw + 80px);
     min-height: 360px;
   }
 }

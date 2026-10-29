@@ -63,8 +63,16 @@ let gated = EMBED && COARSE, awake = !CALM, visible = true;
 if (EMBED) document.documentElement.classList.add('embed');
 // inside the blog, follow the blog's light/dark theme
 const parentDark = () => { try { if (window.parent === window) return false; const t = window.parent.document.documentElement.dataset.theme; return t === 'dark' || (t !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches); } catch (e) { return false; } };
-let DARK = EMBED && parentDark();
-if (EMBED) try { new MutationObserver(() => { const d = parentDark(); if (d !== DARK) { DARK = d; renderBg(); } }).observe(window.parent.document.documentElement, { attributes: true, attributeFilter: ['data-theme'] }); matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { DARK = parentDark(); renderBg(); }); } catch (e) { }
+let DARK = EMBED && parentDark(), parentBgCache = null;
+function parentBg() {
+  if (!EMBED) return null;
+  try {
+    const d = window.parent.document, cs = e => getComputedStyle(e).backgroundColor, clear = c => !c || c === 'transparent' || /rgba\(.*,\s*0\)$/.test(c);
+    let c = cs(d.body); if (clear(c)) c = cs(d.documentElement);
+    return clear(c) ? null : c;
+  } catch (e) { return null; }
+}
+if (EMBED) try { new MutationObserver(() => { DARK = parentDark(); requestAnimationFrame(() => { renderBg(); setTimeout(renderBg, 350); }); }).observe(window.parent.document.documentElement, { attributes: true, attributeFilter: ['data-theme'] }); matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { DARK = parentDark(); requestAnimationFrame(renderBg); }); } catch (e) { }
 if (gated) { document.documentElement.classList.add('gated'); document.getElementById('c').style.touchAction = 'pan-y'; }
 const FILTER_OK = (() => { try { const c = mk(2, 2).getContext('2d'); c.filter = 'blur(1px)'; return c.filter === 'blur(1px)'; } catch (e) { return false; } })();
 
@@ -689,6 +697,8 @@ function renderGround(c, full) {
 }
 function renderBg() {
   const g = bgC.getContext('2d');
+  const pageBg = parentBgCache = parentBg();
+  if (pageBg) { g.fillStyle = pageBg; g.fillRect(0, 0, W, H); return; }  // blend into the blog page
   g.fillStyle = DARK ? '#2b2621' : '#f6efe2'; g.fillRect(0, 0, W, H);
   const rg = g.createRadialGradient(W * 0.4, H * 0.35, 0, W * 0.5, H * 0.5, Math.max(W, H) * 0.75);
   if (DARK) { rg.addColorStop(0, 'rgba(70,58,48,.9)'); rg.addColorStop(1, 'rgba(30,26,24,.6)'); }
@@ -1124,9 +1134,10 @@ function frame(now) {
   if (stroke) drawStroke(stroke, 1);
   for (let i = strokeFade.length - 1; i >= 0; i--) { const s = strokeFade[i]; s.a -= dt * 2.2; if (s.a <= 0) strokeFade.splice(i, 1); else drawStroke(s.pts, s.a); }
   // warm-to-cool light
-  ctx.globalCompositeOperation = 'soft-light';
+  if (!parentBgCache) ctx.globalCompositeOperation = 'soft-light';
+  else ctx.globalCompositeOperation = 'source-atop', ctx.globalAlpha = 0;
   const lg = ctx.createLinearGradient(0, 0, W, H); lg.addColorStop(0, 'rgba(255,196,120,.42)'); lg.addColorStop(0.5, 'rgba(255,255,255,0)'); lg.addColorStop(1, 'rgba(120,150,255,.38)');
-  ctx.fillStyle = lg; ctx.fillRect(0, 0, W, H); ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = lg; ctx.fillRect(0, 0, W, H); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
   if (DEBUG) { ctx.fillStyle = '#000'; ctx.font = `${12 * DPR}px monospace`; ctx.fillText(`${fps.toFixed(0)} fps · ${chars.length} Monets · ${gState}`, 10 * DPR, H - 10 * DPR); }
   window.__giverny = { fps, chars: chars.length, gState };
   requestAnimationFrame(frame);
