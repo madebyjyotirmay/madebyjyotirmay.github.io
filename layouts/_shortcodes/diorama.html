@@ -1,0 +1,3 @@
+{{- $src := .Get "src" | relURL -}}
+<div class="diorama-frame"><iframe src="{{ $src }}?embed" title="{{ .Get "title" }}" loading="lazy"></iframe></div>
+<p class="diorama-link"><a href="{{ $src }}">Open full screen</a></p>
