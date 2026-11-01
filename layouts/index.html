@@ -1,12 +1,12 @@
 {{- define "main" }}
 <div class="home-split">
-<section class="home-garden" aria-label="Monet's garden at Giverny">
-  <div class="home-garden-frame">
-    <iframe src="{{ "garden/" | relURL }}?embed" title="Monet's garden at Giverny: draw a circle on the grass to summon a little Monet" loading="eager"></iframe>
+<section class="home-garden" aria-label="Van Gogh's Starry Night">
+  <div class="home-garden-frame home-garden-frame--night">
+    <iframe src="{{ "projects/dioramas/starry-night/" | relURL }}?embed" title="The Starry Night: draw a circle on the ground to summon a little Vincent" loading="eager"></iframe>
   </div>
   <p class="home-garden-caption">
-    <span>Monet's garden at Giverny. Draw a circle on the grass to summon him.</span>
-    <a href="{{ "garden/" | relURL }}">Full screen</a>
+    <span>The Starry Night. Draw a circle on the ground to summon Vincent, or tap the sky. <a href="{{ "projects/dioramas/" | relURL }}">More dioramas</a></span>
+    <a href="{{ "projects/dioramas/starry-night/" | relURL }}">Full screen</a>
   </p>
 </section>
 
