@@ -392,18 +392,22 @@ function drawMomHead(g, t) {
   g.beginPath(); g.moveTo(-3, -10.6); g.bezierCurveTo(1, -10, 6.6, -7.6, 9.6, -2); g.stroke();
   g.beginPath(); g.moveTo(-4.6, -10); g.bezierCurveTo(-7.4, -8.6, -9.4, -5.6, -10.4, -1.6); g.stroke();
   g.restore();
-  // waves cascading over her right shoulder, in front of the kurta
-  const sw = 0.8 * Math.sin(W2 * 2 * t), L = [], R = [];
-  for (let i = 0; i <= 16; i++) {
-    const y = -86 + i * 2.2, k = i / 16, cx = 10.4 + 2.2 * Math.sin(i * 0.62) + k * 3 + sw * k, w = (2.4 + 2.6 * Math.sin(Math.min(1, k * 1.4) * Math.PI * 0.5)) * (k > 0.85 ? (1 - k) / 0.15 * 0.7 + 0.3 : 1);
-    L.push([cx - w, y]); R.push([cx + w, y]);
+  // long, loose hair falling in front of both shoulders, with soft flicked ends
+  const sw = 0.6 * Math.sin(W2 * 2 * t);
+  for (const sd of [-1, 1]) {
+    const wd = sd > 0 ? 1.15 : 1, end = sd > 0 ? -55 : -57;
+    g.fillStyle = HAIR; g.beginPath();
+    g.moveTo(sd * 6, -90.6);
+    g.bezierCurveTo(sd * 12.6, -89, sd * 13.4 * wd, -80, sd * 12.8 * wd, -72);
+    g.bezierCurveTo(sd * 12.4 * wd, -66, sd * 14.2 * wd + sw, -61, sd * 14.6 * wd + sw, end + 1);
+    g.quadraticCurveTo(sd * 13 * wd + sw, end - 1.6, sd * 11.2 + sw, end);
+    g.quadraticCurveTo(sd * 10.2 + sw, end - 1.4, sd * 9.4 + sw * 0.6, end + 0.6);
+    g.bezierCurveTo(sd * 10.2, -64, sd * 9.4, -72, sd * 9.8, -78);
+    g.bezierCurveTo(sd * 9.8, -84, sd * 8, -87.4, sd * 3, -89);
+    g.closePath(); g.fill();
+    g.strokeStyle = 'rgba(200,175,200,.38)'; g.lineWidth = 0.6; g.lineCap = 'round';
+    for (let j = 0; j < 2; j++) { g.beginPath(); g.moveTo(sd * (8 + j * 2), -88.6 + j); g.bezierCurveTo(sd * (12 + j * 0.6) * wd, -82, sd * (11 + j) * wd, -70, sd * (12.4 + j * 0.8) * wd + sw, end + 4); g.stroke(); }
   }
-  g.fillStyle = HAIR; g.beginPath(); g.moveTo(L[0][0], L[0][1]);
-  for (const [x, y] of L) g.lineTo(x, y); for (const [x, y] of R.reverse()) g.lineTo(x, y); g.closePath(); g.fill();
-  g.strokeStyle = 'rgba(200,175,200,.4)'; g.lineWidth = 0.6;
-  for (let j = 0; j < 2; j++) { g.beginPath(); for (let i = 1; i <= 14; i++) { const y = -86 + i * 2.2, k = i / 16, cx = 10.4 + 2.2 * Math.sin(i * 0.62) + k * 3 + sw * k + (j - 0.5) * 2; i === 1 ? g.moveTo(cx, y) : g.lineTo(cx, y); } g.stroke(); }
-  // the other side tucked behind her ear
-  g.fillStyle = HAIR; g.beginPath(); g.moveTo(-11.2, -82); g.bezierCurveTo(-12.6, -76, -12, -71, -13.4, -66); g.lineTo(-10.6, -68); g.bezierCurveTo(-10, -72, -10, -77, -9.6, -81); g.closePath(); g.fill();
   const ey = -81.2;
   for (const ex of [-4, 4]) {
     g.fillStyle = '#231916'; g.beginPath(); g.ellipse(ex + fx, ey, 1.5, 1.85, 0, 0, 6.3); g.fill();
@@ -419,20 +423,20 @@ function drawMomHead(g, t) {
   for (const sd of [-1, 1]) { g.fillStyle = MOM.GOLD; g.beginPath(); g.arc(sd * 10.4, -76.5, 0.8, 0, 6.3); g.fill(); g.beginPath(); g.moveTo(sd * 10.4 - 1.5, -74); g.quadraticCurveTo(sd * 10.4, -76, sd * 10.4 + 1.5, -74); g.closePath(); g.fill(); }
 }
 function drawThali(g, t) {
-  // both hands offer the aarti plate, circling it slowly
-  const { SK, SKD } = MOM, a = W2 * 2 * t, px = 8 + Math.cos(a) * 3, py = -50 + Math.sin(a) * 2;
-  limb(g, -11, -63.5, px - 6, py + 2, 2, 4.2, SKD, SK); limb(g, 11, -63.5, px + 6, py + 2, -1, 4.2, SKD, SK);
-  ell(g, px, py, 10, 2.8, '#e8b84a', 0.4, 0.35);
-  g.strokeStyle = '#b8862a'; g.lineWidth = 0.6; g.beginPath(); g.ellipse(px, py, 7.4, 1.9, 0, 0, 6.3); g.stroke();
-  g.fillStyle = '#ff4f6a'; for (let i = 0; i < 6; i++) { g.beginPath(); g.arc(px - 6 + i * 2.4, py + 0.3 - Math.sin(i) * 0.6, 0.8, 0, 6.3); g.fill(); }
+  // one hand carries the aarti plate, rocking it gently; the other reaches down for their daughter
+  const { SK, SKD } = MOM, a = W2 * 2 * t, px = 11 + Math.cos(a) * 1.4, py = -49 + Math.sin(a) * 1;
+  limb(g, -11, -63.5, -15.6, -34.4, -2.6, 4.2, SKD, SK);
+  limb(g, 11, -63.5, px + 1.6, py + 2.6, -2, 4.2, SKD, SK);
+  ell(g, px, py, 9, 2.6, '#e8b84a', 0.4, 0.35);
+  g.strokeStyle = '#b8862a'; g.lineWidth = 0.6; g.beginPath(); g.ellipse(px, py, 6.6, 1.8, 0, 0, 6.3); g.stroke();
+  g.fillStyle = '#ff4f6a'; for (let i = 0; i < 5; i++) { g.beginPath(); g.arc(px - 5 + i * 2.4, py + 0.3 - Math.sin(i) * 0.6, 0.8, 0, 6.3); g.fill(); }
   diya(g, px - 3, py - 0.8, 0.5, t, 88);
-  sph(g, px - 6, py + 2.6, 2.3, SK, 0.3, 0.25); sph(g, px + 6, py + 2.6, 2.3, SK, 0.3, 0.25);
+  sph(g, px + 1.6, py + 2.8, 2.3, SK, 0.3, 0.25);
 }
 
 function drawGirl(g, t) {
   const SK = '#e9b48e', SKD = '#d39a75', HAIR = '#2a1c17', f = 1;
-  const hp = frac(t / 3), hop = hp < 0.24 ? Math.sin(Math.PI * (hp / 0.12 % 1)) * 3.2 : 0;
-  g.save(); g.translate(0, -hop);
+  g.save();
   // yellow lace lehenga to the ankles, little yellow shoes
   for (const x of [-3, 3]) ell(g, x, -1.4, 3.4, 2.1, '#f2d24a', 0.35, 0.25);
   const skirt = () => { g.beginPath(); g.moveTo(-6, -22); g.lineTo(6, -22); g.quadraticCurveTo(10, -12, 12, -2.6); g.quadraticCurveTo(0, -0.8, -12, -2.6); g.quadraticCurveTo(-10, -12, -6, -22); g.closePath(); };
@@ -452,13 +456,13 @@ function drawGirl(g, t) {
   g.fillStyle = 'rgba(255,255,250,.8)'; for (let i = 0; i < 6; i++) { g.beginPath(); g.arc(-3.8 + (i % 3) * 3.8, -27 + (i / 3 | 0) * 3, 0.6, 0, 6.3); g.fill(); }
   g.fillStyle = '#f4c43a'; g.fillRect(-6, -22.4, 12, 1.1);
   const arm = (x0, y0, x1, y1) => { limb(g, x0, y0, x1, y1, 0, 2.6, SKD, SK); sph(g, x1, y1, 1.6, SK, 0.3, 0.2); };
-  arm(-6.6, -27, -9.4, -16.5);
+  arm(-6.6, -27, -12.4, -36.8);
   // a stack of bangles
-  for (let i = 0; i < 3; i++) { g.strokeStyle = i === 1 ? '#e8b84a' : '#fff6e0'; g.lineWidth = 0.7; g.beginPath(); g.ellipse(-9.1 + i * 0.05, -18.2 - i * 1, 1.6, 0.7, 0, 0, 6.3); g.stroke(); }
-  // pointing up at the fireworks
-  const wob = Math.sin(W2 * 3 * t) * 1.2; arm(6.6, -27, 12 + wob * 0.4, -41 + wob);
+  for (let i = 0; i < 3; i++) { g.strokeStyle = i === 1 ? '#e8b84a' : '#fff6e0'; g.lineWidth = 0.7; g.beginPath(); g.ellipse(-10.9 + i * 0.4, -34 + i * 0.9, 1.6, 0.7, -0.9, 0, 6.3); g.stroke(); }
+  // holding mum's and dad's hands
+  arm(6.6, -27, 12.4, -36.8);
   // head with two little pigtails tied in pink bobbles, tilted up
-  g.save(); g.translate(0, -30); g.rotate(-0.2); g.translate(0, 30);
+  g.save(); g.translate(0, -30); g.rotate(-0.08); g.translate(0, 30);
   const HB = '#24170f';
   for (const sd of [-1, 1]) { sph(g, sd * 7.4, -49.6, 2.4, HB, 0.3, 0.25); sph(g, sd * 9.6, -49, 1.9, HB, 0.3, 0.25); sph(g, sd * 5.2, -48, 1.6, '#ff8fb0', 0.4, 0.25); }
   g.fillStyle = HB; g.beginPath(); g.arc(0, -39, 10.2, Math.PI * 0.9, Math.PI * 2.1); g.lineTo(9.8, -33); g.lineTo(-9.8, -33); g.closePath(); g.fill();
@@ -470,8 +474,8 @@ function drawGirl(g, t) {
   g.fillStyle = 'rgba(240,120,120,.35)'; g.beginPath(); g.ellipse(-5.6 + fx, -35, 2.2, 1.4, 0, 0, 6.3); g.ellipse(5.6 + fx, -35, 2.2, 1.4, 0, 0, 6.3); g.fill();
   for (const ex of [-3.4, 3.4]) { g.fillStyle = '#2a1f1c'; g.beginPath(); g.ellipse(ex + fx, ey, 1.6, 2, 0, 0, 6.3); g.fill(); g.fillStyle = '#fff'; g.beginPath(); g.arc(ex + fx - 0.5, ey - 0.9, 0.6, 0, 6.3); g.fill(); }
   g.fillStyle = '#e09a7c'; g.beginPath(); g.arc(fx * 1.2, -36, 0.8, 0, 6.3); g.fill();
-  // an open "wow" smile
-  g.fillStyle = '#a5404a'; g.beginPath(); g.ellipse(fx + 0.2, -32.8, 1.6, 1.3, 0, 0, 6.3); g.fill();
+  // a big happy smile
+  g.fillStyle = '#a5404a'; g.beginPath(); g.moveTo(-2.4 + fx, -33.6); g.quadraticCurveTo(fx, -30.4, 2.4 + fx, -33.6); g.quadraticCurveTo(fx, -33, -2.4 + fx, -33.6); g.fill();
   g.fillStyle = '#c2185b'; g.beginPath(); g.arc(fx, -43.2, 0.55, 0, 6.3); g.fill();
   g.restore();
   g.restore();
@@ -479,7 +483,6 @@ function drawGirl(g, t) {
 
 // dad: dusty-pink chikankari kurta with a mandarin collar, cream trousers, rimless glasses, short dark hair, trimmed beard
 const DAD = { SK: '#d9a27c', SKD: '#bd865f', FACE: '#e2ad86', HAIR: '#17110f', BEARD: '#2a1e18', K: '#e9a9a4', KD: '#cf8c88', KL: '#f6c6c0', PANT: '#ece0c6', PANTD: '#d4c5a6' };
-function sparklerTip(t) { const a = W2 * 4 * t; return [24 + Math.cos(a) * 3.2 + 9, -94 + Math.sin(a) * 3.2 - 15]; }
 function drawDad(g, t) {
   const { SK, SKD, FACE, HAIR, BEARD, K, KD, KL, PANT, PANTD } = DAD;
   // trousers and white sneakers
@@ -510,12 +513,8 @@ function drawDad(g, t) {
   const sleeve = (x0, y0, x1, y1, bend) => { limb(g, x0, y0, x1, y1, bend, 7, KD, K); };
   sleeve(-12.5, -73, -16.5, -42, -2); sph(g, -16.8, -39.4, 3, SK, 0.3, 0.25);
   g.fillStyle = '#e8b84a'; g.beginPath(); g.arc(-15, -38.6, 0.7, 0, 6.3); g.fill();
-  // right arm raised, twirling a phuljhadi
-  const a = W2 * 4 * t, hx = 24 + Math.cos(a) * 3.2, hy = -94 + Math.sin(a) * 3.2;
-  sleeve(12.5, -73, hx - 1, hy + 4, 4); sph(g, hx, hy, 3, SK, 0.3, 0.25);
-  const [sx, sy] = sparklerTip(t);
-  g.strokeStyle = '#6b6b6b'; g.lineWidth = 0.9; g.beginPath(); g.moveTo(hx - 1.5, hy + 2.5); g.lineTo(sx, sy); g.stroke();
-  g.strokeStyle = '#3a3a3a'; g.lineWidth = 1.6; g.beginPath(); g.moveTo(hx + 4.5, hy - 5.5); g.lineTo(sx, sy); g.stroke();
+  // right arm reaching down to hold their daughter's hand (the hand itself is drawn over hers)
+  sleeve(12.5, -73, 18.6, -38.6, 2.4);
   // head
   g.save(); g.translate(0, -94); g.scale(1, 1.12); sph(g, 0, 0, 11.2, FACE, 0.25, 0.18); g.restore();
   for (const sd of [-1, 1]) sph(g, sd * 11, -93, 2.4, SKD, 0.2, 0.2);
@@ -563,7 +562,7 @@ function sparks(g, x, y, k, t) {
 }
 
 // ---------------------------------------------------------------- layout
-const FAM = { dad: [112, 398, 1.42], girl: [160, 408, 1.42], mum: [204, 398, 1.42] };
+const FAM = { dad: [112, 398, 1.42], girl: [158, 402, 1.42], mum: [198, 398, 1.42] };
 const RANG = [352, 360];
 const RING = []; for (let i = 0; i < 10; i++) { const a = i * 6.2832 / 10 + 0.31; RING.push([RANG[0] + Math.cos(a) * 80 - 4, RANG[1] + Math.sin(a) * 33 + 2]); }
 const FRONT = []; for (let i = 0; i < 15; i++) { const [x, y] = P(0.05 + i * 0.9 / 14, 0.955); FRONT.push([x - 4, y]); }
@@ -601,6 +600,9 @@ function render(t) {
   fig('dad', drawDad);
   fig('mum', (g, t) => { drawMom(g, t); drawMomHead(g, t); drawThali(g, t); });
   fig('girl', drawGirl);
+  // the grown-ups' hands, wrapped around hers
+  { const [ax, ay, ak] = FAM.girl; sph(g, ax - 12.4 * ak - 1, ay - 36.8 * ak + 1, 3 * ak, DAD.SK, 0.3, 0.25); sph(g, ax + 12.4 * ak + 1, ay - 36.8 * ak + 1, 2.5 * ak, MOM.SK, 0.3, 0.25);
+    g.fillStyle = '#e8b84a'; g.beginPath(); g.arc(ax - 12.4 * ak + 1.4, ay - 36.8 * ak + 1, 0.9, 0, 6.3); g.fill(); }
   FRONT.forEach(([x, y], i) => diya(g, x, y, 1.0, t, 200 + i));
   // lamplight
   g.save(); g.globalCompositeOperation = 'lighter';
@@ -608,7 +610,6 @@ function render(t) {
   FRONT.forEach(([x, y], i) => diyaGlow(g, x, y, 1, t, i));
   glow(g, 270, 278, 70, '#ff9a3a', 0.12);
   g.restore();
-  const [jx, jy, dk] = FAM.dad, [sx, sy] = sparklerTip(t); sparks(g, jx + sx * dk, jy + sy * dk, 1.15, t);
   if (GREET) greeting(g, t);
 }
 
