@@ -1,8 +1,8 @@
 +++
 title = 'Dioramas'
-description = 'Little interactive worlds built from famous paintings, drawn entirely in code.'
+description = 'Little interactive worlds drawn entirely in code, from famous paintings to a Diwali night at home.'
 date = 2026-11-01
-summary = "Little interactive worlds built from famous paintings: Monet's garden at Giverny and Van Gogh's Starry Night."
+summary = "Little interactive worlds built from famous paintings: Monet's garden at Giverny, Van Gogh's Starry Night and a Diwali night at home."
 ShowReadingTime = false
 ShowWordCount = false
 ShowShareButtons = false
@@ -21,3 +21,9 @@ The Clos Normand flower beds, the water-lily pond and the green Japanese bridge.
 A Saint-Rémy village under Van Gogh's swirling sky. Tap the sky to add a star, tap a house to switch its lights, and summon a little Vincent with candles on his hat.
 
 {{< diorama src="projects/dioramas/starry-night/" title="The Starry Night: draw a circle on the ground to summon a little Vincent" >}}
+
+## Diwali
+
+A little home on Diwali night: diyas around a rangoli, fairy lights, a paper star lantern, and a family watching the fireworks. Tap anywhere to launch a firework of your own.
+
+{{< diorama src="projects/dioramas/diwali/" title="Diwali night: tap anywhere to launch a firework" >}}
