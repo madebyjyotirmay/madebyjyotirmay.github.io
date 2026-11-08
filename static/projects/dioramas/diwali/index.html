@@ -24,7 +24,7 @@
 'use strict';
 const Q = location.search;
 const CAPTURE = /(^|[?&])capture\b/.test(Q);
-const GREET = CAPTURE || /(^|[?&])greet\b/.test(Q);
+const GREET = true; // the blog version always says Happy Diwali
 const EMBED = /(^|[?&])embed\b/.test(Q);
 if (CAPTURE) document.documentElement.classList.add('capture');
 if (GREET) document.documentElement.classList.add('greet');
@@ -599,10 +599,8 @@ function greeting(g, t) {
   const sx = lerp(-0.3, 1.3, shimmer);
   gr.addColorStop(0, '#f7b733'); gr.addColorStop(clamp(sx - 0.15, 0, 1), '#ffd36b'); gr.addColorStop(clamp(sx, 0, 1), '#fff6d0'); gr.addColorStop(clamp(sx + 0.15, 0, 1), '#ffd36b'); gr.addColorStop(1, '#f39a2a');
   g.shadowColor = 'rgba(255,150,40,.75)'; g.shadowBlur = 22;
-  g.fillStyle = gr; g.fillText('Happy Diwali', 270, 68);
+  g.fillStyle = gr; g.fillText('Happy Diwali', 270, 80);
   g.shadowBlur = 0;
-  g.font = `italic 600 17px ${font}`; g.fillStyle = 'rgba(255,236,200,.92)';
-  g.fillText('May your home glow with light, love & laughter', 270, 94);
   g.font = `italic 600 19px ${font}`; g.fillStyle = '#ffd98a'; g.shadowColor = 'rgba(255,150,40,.5)'; g.shadowBlur = 10;
   if (SIGN) g.fillText(SIGN, 270, 508);
   g.restore();
