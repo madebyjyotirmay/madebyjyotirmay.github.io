@@ -24,6 +24,6 @@ A Saint-Rémy village under Van Gogh's swirling sky. Tap the sky to add a star, 
 
 ## Diwali
 
-A little home on Diwali night: diyas around a rangoli, fairy lights, a paper star lantern, and a family watching the fireworks. Tap anywhere to launch a firework of your own.
+A little home on Diwali night: diyas around a rangoli, a brass samai and an urli of floating flowers, fairy lights and a paper star lantern under the fireworks. Tap anywhere to launch a firework of your own.
 
 {{< diorama src="projects/dioramas/diwali/" title="Diwali night: tap anywhere to launch a firework" >}}

@@ -334,214 +334,65 @@ function rangoli(g, x, y, t) {
   g.restore();
 }
 
-// ---------------------------------------------------------------- the family
-const MOM = { SK: '#e3ad86', SKD: '#c58f6b', FACE: '#efc29e', HAIR: '#181212', K: '#c2185b', KD: '#8e0f42', KL: '#e04482', GOLD: '#e8b84a' };
-function drawMom(g, t) {
-  const { SK, SKD, HAIR, K, KD, KL, GOLD } = MOM, f = 1;
-  // long wavy hair behind her shoulders
-  const sw = 0.8 * Math.sin(W2 * 2 * t);
-  g.fillStyle = HAIR; g.beginPath(); g.moveTo(-10, -86);
-  for (let y = -84; y <= -56; y += 2) g.lineTo(-10 - (3.4 + 1.6 * Math.sin((y + 88) * 0.32) + (y + 88) * 0.06) * Math.min(1, (y + 86) / 8), y);
-  for (let x = -14; x <= 10; x += 3) g.lineTo(x + sw, -55.5 + 1.6 * Math.sin(x * 0.7));
-  for (let y = -58; y >= -84; y -= 2) g.lineTo(10 + (3 + 1.4 * Math.sin((y + 88) * 0.32 + 1) + (y + 88) * -0.04) * Math.min(1, (y + 86) / 8) + sw * (y + 88) / 32, y);
-  g.lineTo(10, -86); g.closePath(); g.fill();
-  // cream churidar and gold juttis
-  g.fillStyle = '#efe4cc'; g.fillRect(-7, -24, 5.6, 22); g.fillRect(1.4, -24, 5.6, 22);
-  g.strokeStyle = 'rgba(160,140,110,.5)'; g.lineWidth = 0.5; for (let y = -20; y < -4; y += 2.2) { g.beginPath(); g.moveTo(-7, y); g.lineTo(-1.4, y + 0.8); g.moveTo(1.4, y + 0.8); g.lineTo(7, y); g.stroke(); }
-  ell(g, -4.5, -1.2, 4.2, 1.8, GOLD, 0.35, 0.3); ell(g, 4.5, -1.2, 4.2, 1.8, GOLD, 0.35, 0.3);
-  // rani-pink anarkali kurta flaring to the knee, gold border
-  const kurta = () => { g.beginPath(); g.moveTo(-10, -66); g.lineTo(10, -66); g.quadraticCurveTo(11.5, -55, 11, -48); g.quadraticCurveTo(17, -34, 19, -21); g.quadraticCurveTo(0, -17, -19, -21); g.quadraticCurveTo(-17, -34, -11, -48); g.quadraticCurveTo(-11.5, -55, -10, -66); g.closePath(); };
-  kurta(); const gr = g.createLinearGradient(-18, 0, 18, 0); gr.addColorStop(0, KD); gr.addColorStop(0.5, K); gr.addColorStop(1, KL); g.fillStyle = gr; g.fill();
-  g.save(); kurta(); g.clip();
-  g.strokeStyle = 'rgba(80,0,30,.35)'; g.lineWidth = 0.6; for (let i = -6; i <= 6; i++) { g.beginPath(); g.moveTo(i * 1.6, -48); g.quadraticCurveTo(i * 2.4, -34, i * 3.1, -19); g.stroke(); }
-  g.fillStyle = GOLD; g.beginPath(); g.moveTo(-20, -24); g.quadraticCurveTo(0, -20, 20, -24); g.lineTo(20, -19); g.quadraticCurveTo(0, -15, -20, -19); g.fill();
-  g.fillStyle = '#fff1b8'; for (let i = -8; i <= 8; i++) { g.beginPath(); g.arc(i * 2.2, -21.6 + Math.abs(i) * 0.06, 0.5, 0, 6.28); g.fill(); }
-  g.fillStyle = GOLD; g.fillRect(-11.5, -49.5, 23, 2);
-  g.fillStyle = 'rgba(255,220,140,.7)'; for (let i = 0; i < 12; i++) { g.beginPath(); g.arc(-8 + (i * 5.3) % 16, -63 + (i * 4.7) % 13, 0.55, 0, 6.28); g.fill(); }
+// a tall brass samai (oil lamp stand) with five flames and a peacock on top
+function samai(g, x, y, k, t) {
+  const B = '#d9a43a', BD = '#9c6a1c';
+  g.save(); g.translate(x, y); g.scale(k, k);
+  g.fillStyle = 'rgba(40,15,10,.3)'; g.beginPath(); g.ellipse(0, 0, 16, 3.6, 0, 0, 6.3); g.fill();
+  ell(g, 0, -2.4, 13, 4, B, 0.4, 0.35); ell(g, 0, -6, 8, 2.4, B, 0.4, 0.35);
+  const sg = g.createLinearGradient(-3, 0, 3, 0); sg.addColorStop(0, BD); sg.addColorStop(0.5, '#ffe08a'); sg.addColorStop(1, BD);
+  g.fillStyle = sg; g.fillRect(-1.8, -58, 3.6, 52);
+  for (const yy of [-16, -30, -44]) ell(g, 0, yy, 3.4, 2.4, B, 0.45, 0.35);
+  ell(g, 0, -38, 12, 3.2, B, 0.4, 0.35); // lower plate
+  ell(g, 0, -60, 15, 3.8, B, 0.4, 0.35); // top plate
+  g.fillStyle = BD; g.beginPath(); g.ellipse(0, -60.6, 12.6, 2.6, 0, 0, 6.3); g.fill();
+  // peacock finial
+  g.fillStyle = sg; g.fillRect(-1.2, -74, 2.4, 14);
+  ell(g, 0, -76, 4.6, 3.2, B, 0.45, 0.35); sph(g, 2.6, -80.4, 1.8, B, 0.45, 0.35);
+  g.fillStyle = B; g.beginPath(); g.moveTo(-3, -77); g.quadraticCurveTo(-10, -84, -8.6, -92); g.quadraticCurveTo(-4, -86, -1, -79); g.fill();
+  g.fillStyle = '#2a8a7a'; for (let i = 0; i < 3; i++) { g.beginPath(); g.arc(-6.6 + i * 0.8, -86 + i * 2.4, 0.7, 0, 6.3); g.fill(); }
+  // flames: five on the top plate, four on the lower
+  const flame = (fx, fy, i, sc) => {
+    const fl = 1 + 0.16 * Math.sin(W2 * 31 * t + i * 2.1) + 0.09 * Math.sin(W2 * 53 * t + i);
+    g.save(); g.globalCompositeOperation = 'lighter'; glow(g, fx, fy - 3, 12 * sc * fl, '#ffb84a', 0.5); g.restore();
+    g.fillStyle = '#ff9a2a'; g.beginPath(); g.ellipse(fx, fy - 2.4 * sc, 1.6 * sc, 3.4 * sc * fl, 0.15 * Math.sin(W2 * 17 * t + i), 0, 6.3); g.fill();
+    g.fillStyle = '#ffe9a0'; g.beginPath(); g.ellipse(fx, fy - 1.8 * sc, 0.75 * sc, 1.7 * sc * fl, 0, 0, 6.3); g.fill();
+  };
+  for (let i = 0; i < 5; i++) { const a = Math.PI * (0.1 + i * 0.2); flame(Math.cos(a) * 12, -60 + Math.sin(a) * 2.6 - 1.4, i, 1); }
+  for (let i = 0; i < 4; i++) { const a = Math.PI * (0.15 + i * 0.233); flame(Math.cos(a) * 9.6, -38 + Math.sin(a) * 2.2 - 1, i + 7, 0.85); }
   g.restore();
-  for (const sd of [-1, 1]) { g.fillStyle = sd > 0 ? KL : KD; g.beginPath(); g.moveTo(sd * 7.5, -66.6); g.quadraticCurveTo(sd * 14.2, -66.2, sd * 14.6, -57); g.lineTo(sd * 10.4, -56); g.closePath(); g.fill(); }
-  // dupatta draped over one shoulder
-  g.fillStyle = 'rgba(255,196,64,.85)'; g.beginPath(); g.moveTo(-10, -67); g.quadraticCurveTo(-3, -60, 4, -48); g.lineTo(10, -49); g.quadraticCurveTo(0, -60, -6, -68); g.closePath(); g.fill();
-  g.beginPath(); g.moveTo(-12, -66); g.quadraticCurveTo(-17, -46, -15, -26); g.lineTo(-11, -27); g.quadraticCurveTo(-13, -46, -8, -66); g.fill();
-  // neck, collar, necklace
-  g.fillStyle = SKD; g.fillRect(-2.4, -71, 4.8, 6);
-  g.fillStyle = SK; g.beginPath(); g.moveTo(-4, -66.6); g.quadraticCurveTo(0, -60, 4, -66.6); g.closePath(); g.fill();
-  g.strokeStyle = GOLD; g.lineWidth = 0.9; g.beginPath(); g.moveTo(-3.6, -66.2); g.quadraticCurveTo(0, -61.6, 3.6, -66.2); g.stroke();
 }
-function drawMomHead(g, t) {
-  const { HAIR, FACE } = MOM, f = 1;
-  g.save(); g.translate(0, -80); g.scale(1, 1.14); sph(g, 0, 0, 10.2, FACE, 0.25, 0.18); g.restore();
-  const fx = f * 1.1;
-  // side-parted, with a soft sweep across the forehead
-  g.save(); g.translate(0, -80); g.scale(1, 1.14);
-  g.fillStyle = HAIR; g.beginPath(); g.arc(0, 0.2, 11.6, Math.PI * 0.94, Math.PI * 2.06);
-  g.bezierCurveTo(10.6, -3.4, 6, -7.6, -2.6, -8.2);
-  g.bezierCurveTo(-6.6, -6.4, -9.4, -4, -11.2, 1.4); g.closePath(); g.fill();
-  g.strokeStyle = 'rgba(200,175,200,.42)'; g.lineWidth = 0.7; g.lineCap = 'round';
-  g.beginPath(); g.moveTo(-3, -10.6); g.bezierCurveTo(1, -10, 6.6, -7.6, 9.6, -2); g.stroke();
-  g.beginPath(); g.moveTo(-4.6, -10); g.bezierCurveTo(-7.4, -8.6, -9.4, -5.6, -10.4, -1.6); g.stroke();
+// an urli: a wide brass bowl of water with floating flowers, petals and little diyas
+function urli(g, x, y, t) {
+  g.save(); g.translate(x, y);
+  g.fillStyle = 'rgba(40,15,10,.32)'; g.beginPath(); g.ellipse(0, 3, 40, 9, 0, 0, 6.3); g.fill();
+  // bowl body
+  const bg = g.createLinearGradient(-36, 0, 36, 0); bg.addColorStop(0, '#8a5a18'); bg.addColorStop(0.45, '#f2c45a'); bg.addColorStop(1, '#9c6a1c');
+  g.fillStyle = bg; g.beginPath(); g.moveTo(-36, -6); g.quadraticCurveTo(-34, 6, 0, 7.4); g.quadraticCurveTo(34, 6, 36, -6); g.closePath(); g.fill();
+  g.fillStyle = '#e8b84a'; for (let i = -4; i <= 4; i++) { g.beginPath(); g.arc(i * 7, 1.8 - Math.abs(i) * 0.5, 0.9, 0, 6.3); g.fill(); }
+  // rim and water
+  g.fillStyle = '#f6d27a'; g.beginPath(); g.ellipse(0, -6, 36.6, 9.4, 0, 0, 6.3); g.fill();
+  const wg = g.createRadialGradient(-6, -8, 2, 0, -6, 34); wg.addColorStop(0, '#2c5f6e'); wg.addColorStop(1, '#122c3a');
+  g.fillStyle = wg; g.beginPath(); g.ellipse(0, -6, 33.4, 7.8, 0, 0, 6.3); g.fill();
+  g.save(); g.beginPath(); g.ellipse(0, -6, 33.4, 7.8, 0, 0, 6.3); g.clip();
+  // ripples and reflected flame light
+  g.strokeStyle = 'rgba(255,220,150,.25)'; g.lineWidth = 0.6;
+  for (let i = 0; i < 3; i++) { const p = frac(t / 3 + i / 3); g.globalAlpha = 1 - p; g.beginPath(); g.ellipse(0, -6, 6 + p * 26, 1.6 + p * 6, 0, 0, 6.3); g.stroke(); }
+  g.globalAlpha = 1;
+  // rose petals
+  const PET = ['#e8324a', '#ff6a7a', '#c41a3a', '#ff9a2a'];
+  for (let i = 0; i < 26; i++) { const a = hash(i + 300) * 6.28, r = 6 + hash(i + 340) * 25, px = Math.cos(a + 0.05 * Math.sin(W2 * t + i)) * r, py = -6 + Math.sin(a) * r * 0.22; g.fillStyle = PET[i % 4]; g.beginPath(); g.ellipse(px, py, 1.6, 0.8, a, 0, 6.3); g.fill(); }
   g.restore();
-  // waves cascading over her right shoulder, in front of the kurta
-  const sw = 0.8 * Math.sin(W2 * 2 * t), L = [], R = [];
-  for (let i = 0; i <= 16; i++) {
-    const y = -86 + i * 2.2, k = i / 16, cx = 10.4 + 2.2 * Math.sin(i * 0.62) + k * 3 + sw * k, w = (2.4 + 2.6 * Math.sin(Math.min(1, k * 1.4) * Math.PI * 0.5)) * (k > 0.85 ? (1 - k) / 0.15 * 0.7 + 0.3 : 1);
-    L.push([cx - w, y]); R.push([cx + w, y]);
+  // floating marigolds and roses
+  for (const [fx, fy, c] of [[-20, -7, '#ff9f1c'], [-8, -3.4, '#ffbf1f'], [14, -8.6, '#ff7a12'], [24, -4.6, '#e8324a'], [-26, -3.6, '#e8324a'], [4, -10, '#ffbf1f']]) {
+    for (let k = 0; k < 7; k++) { const a = k * 0.9; sph(g, fx + Math.cos(a) * 1.8, fy + Math.sin(a) * 0.8, 1.7, c, 0.35, 0.3); } sph(g, fx, fy - 0.4, 1.4, shade(c, 0.2), 0.4, 0.3);
   }
-  g.fillStyle = HAIR; g.beginPath(); g.moveTo(L[0][0], L[0][1]);
-  for (const [x, y] of L) g.lineTo(x, y); for (const [x, y] of R.reverse()) g.lineTo(x, y); g.closePath(); g.fill();
-  g.strokeStyle = 'rgba(200,175,200,.4)'; g.lineWidth = 0.6;
-  for (let j = 0; j < 2; j++) { g.beginPath(); for (let i = 1; i <= 14; i++) { const y = -86 + i * 2.2, k = i / 16, cx = 10.4 + 2.2 * Math.sin(i * 0.62) + k * 3 + sw * k + (j - 0.5) * 2; i === 1 ? g.moveTo(cx, y) : g.lineTo(cx, y); } g.stroke(); }
-  // the other side tucked behind her ear
-  g.fillStyle = HAIR; g.beginPath(); g.moveTo(-11.2, -82); g.bezierCurveTo(-12.6, -76, -12, -71, -13.4, -66); g.lineTo(-10.6, -68); g.bezierCurveTo(-10, -72, -10, -77, -9.6, -81); g.closePath(); g.fill();
-  const ey = -81.2;
-  for (const ex of [-4, 4]) {
-    g.fillStyle = '#231916'; g.beginPath(); g.ellipse(ex + fx, ey, 1.5, 1.85, 0, 0, 6.3); g.fill();
-    g.fillStyle = '#fff'; g.beginPath(); g.arc(ex + fx - 0.5, ey - 0.7, 0.55, 0, 6.3); g.fill();
-    g.strokeStyle = '#2a1d19'; g.lineWidth = 0.75; g.beginPath(); g.moveTo(ex + fx - 2, ey - 3.3); g.quadraticCurveTo(ex + fx, ey - 4.3, ex + fx + 2, ey - 3.4); g.stroke();
-  }
-  g.fillStyle = '#c2185b'; g.beginPath(); g.arc(fx, -86.6, 0.85, 0, 6.3); g.fill(); // bindi
-  g.fillStyle = 'rgba(232,120,110,.3)'; g.beginPath(); g.ellipse(-6.3 + fx, -75.8, 2.4, 1.5, 0, 0, 6.3); g.ellipse(6.3 + fx, -75.8, 2.4, 1.5, 0, 0, 6.3); g.fill();
-  g.strokeStyle = '#c4876a'; g.lineWidth = 0.7; g.beginPath(); g.moveTo(fx * 1.25, -79.5); g.quadraticCurveTo(fx * 1.25 + f * 0.9, -77, fx * 1.1, -76.6); g.stroke();
-  g.fillStyle = '#8c3a35'; g.beginPath(); g.moveTo(-4 + fx, -73.6); g.quadraticCurveTo(fx, -68.4, 4 + fx, -73.6); g.quadraticCurveTo(fx, -72.6, -4 + fx, -73.6); g.fill();
-  g.fillStyle = '#fff'; g.beginPath(); g.moveTo(-3.4 + fx, -73.3); g.quadraticCurveTo(fx, -71.2, 3.4 + fx, -73.3); g.quadraticCurveTo(fx, -72.5, -3.4 + fx, -73.3); g.fill();
-  // jhumkas
-  for (const sd of [-1, 1]) { g.fillStyle = MOM.GOLD; g.beginPath(); g.arc(sd * 10.4, -76.5, 0.8, 0, 6.3); g.fill(); g.beginPath(); g.moveTo(sd * 10.4 - 1.5, -74); g.quadraticCurveTo(sd * 10.4, -76, sd * 10.4 + 1.5, -74); g.closePath(); g.fill(); }
-}
-function drawThali(g, t) {
-  // both hands offer the aarti plate, circling it slowly
-  const { SK, SKD } = MOM, a = W2 * 2 * t, px = 8 + Math.cos(a) * 3, py = -50 + Math.sin(a) * 2;
-  limb(g, -11, -63.5, px - 6, py + 2, 2, 4.2, SKD, SK); limb(g, 11, -63.5, px + 6, py + 2, -1, 4.2, SKD, SK);
-  ell(g, px, py, 10, 2.8, '#e8b84a', 0.4, 0.35);
-  g.strokeStyle = '#b8862a'; g.lineWidth = 0.6; g.beginPath(); g.ellipse(px, py, 7.4, 1.9, 0, 0, 6.3); g.stroke();
-  g.fillStyle = '#ff4f6a'; for (let i = 0; i < 6; i++) { g.beginPath(); g.arc(px - 6 + i * 2.4, py + 0.3 - Math.sin(i) * 0.6, 0.8, 0, 6.3); g.fill(); }
-  diya(g, px - 3, py - 0.8, 0.5, t, 88);
-  sph(g, px - 6, py + 2.6, 2.3, SK, 0.3, 0.25); sph(g, px + 6, py + 2.6, 2.3, SK, 0.3, 0.25);
-}
-
-function drawGirl(g, t) {
-  const SK = '#e9b48e', SKD = '#d39a75', HAIR = '#2a1c17', f = 1;
-  const hp = frac(t / 3), hop = hp < 0.24 ? Math.sin(Math.PI * (hp / 0.12 % 1)) * 3.2 : 0;
-  g.save(); g.translate(0, -hop);
-  g.fillStyle = SK; g.fillRect(-4.5, -11, 3, 9); g.fillRect(1.5, -11, 3, 9);
-  for (const x of [-3, 3]) ell(g, x, -1.6, 3.6, 2.3, '#e8b84a', 0.35, 0.25);
-  // a little lehenga: marigold skirt with a gold hem, pink choli
-  const skirt = () => { g.beginPath(); g.moveTo(-6, -22); g.lineTo(6, -22); g.quadraticCurveTo(10, -14, 12, -6); g.quadraticCurveTo(0, -3.6, -12, -6); g.quadraticCurveTo(-10, -14, -6, -22); g.closePath(); };
-  skirt(); const gr = g.createLinearGradient(-12, 0, 12, 0); gr.addColorStop(0, '#e88a10'); gr.addColorStop(0.5, '#ffb627'); gr.addColorStop(1, '#ffd05a'); g.fillStyle = gr; g.fill();
-  g.save(); skirt(); g.clip(); g.strokeStyle = 'rgba(160,70,0,.4)'; g.lineWidth = 0.55; for (let x = -12; x <= 12; x += 2) { g.beginPath(); g.moveTo(x * 0.5, -22); g.lineTo(x, -4); g.stroke(); }
-  g.fillStyle = '#d6246e'; g.beginPath(); g.moveTo(-12.5, -8.6); g.quadraticCurveTo(0, -6, 12.5, -8.6); g.lineTo(12.5, -5); g.quadraticCurveTo(0, -2.6, -12.5, -5); g.fill();
-  g.fillStyle = '#ffe9a0'; for (let i = 0; i < 9; i++) { g.beginPath(); g.arc(-9.6 + i * 2.4, -6.6 + Math.abs(i - 4) * 0.1, 0.6, 0, 6.28); g.fill(); }
-  g.restore();
-  g.fillStyle = '#e04482'; rrect(g, -6.4, -29, 12.8, 8, 2.5); g.fill();
-  g.fillStyle = '#ffd05a'; g.fillRect(-6.4, -22.6, 12.8, 1.3);
-  g.fillStyle = 'rgba(255,230,150,.8)'; for (let i = 0; i < 5; i++) { g.beginPath(); g.arc(-4 + i * 2, -26, 0.5, 0, 6.28); g.fill(); }
-  for (const sd of [-1, 1]) { g.fillStyle = '#ea5a92'; g.beginPath(); g.ellipse(sd * 7, -27, 3.4, 2.3, sd * 0.4, 0, 6.3); g.fill(); }
-  const arm = (x0, y0, x1, y1) => { limb(g, x0, y0, x1, y1, 0, 2.6, SKD, SK); sph(g, x1, y1, 1.6, SK, 0.3, 0.2); };
-  arm(-7.5, -26, -9.4, -16.5);
-  g.strokeStyle = '#e8b84a'; g.lineWidth = 0.6; g.beginPath(); g.ellipse(-9.2, -18.5, 1.5, 0.7, 0, 0, 6.3); g.stroke();
-  // pointing up at the fireworks
-  const wob = Math.sin(W2 * 3 * t) * 1.2; arm(7.5, -26, 12 + wob * 0.4, -41 + wob);
-  // head with dark curls and a gold clip, tilted up
-  g.save(); g.translate(0, -30); g.rotate(-0.2); g.translate(0, 30);
-  for (const [x, y, r] of [[-8, -40, 3.4], [8, -40, 3.4], [-9.2, -35.5, 2.8], [9.2, -35.5, 2.8], [-6.5, -45.5, 3.4], [6.5, -45.5, 3.4], [0, -47.5, 3.6], [-10, -31.8, 2.1], [10, -31.8, 2.1]]) sph(g, x, y, r, HAIR, 0.25, 0.25);
-  sph(g, 0, -38.5, 9.6, '#f2c3a0', 0.28, 0.2);
-  for (const [x, y, r] of [[-5, -46, 2.8], [0, -47.6, 3], [5, -46, 2.8], [-8.3, -43, 2.4], [8.3, -43, 2.4], [-2.6, -46.6, 2.2], [2.8, -45.2, 1.6]]) sph(g, x, y, r, HAIR, 0.3, 0.25);
-  g.strokeStyle = 'rgba(170,140,150,.35)'; g.lineWidth = 0.5; for (let i = 0; i < 6; i++) { g.beginPath(); g.arc(-7 + i * 2.8, -45.5 + Math.abs(i - 2.5) * 0.8, 1.2, 3.4, 5.8); g.stroke(); }
-  g.fillStyle = '#e8b84a'; g.beginPath(); g.ellipse(-4, -48.4, 1.7, 1, -0.3, 0, 6.3); g.fill();
-  const fx = 1.3, ey = -39.2;
-  g.fillStyle = 'rgba(240,120,120,.35)'; g.beginPath(); g.ellipse(-5.6 + fx, -35, 2.2, 1.4, 0, 0, 6.3); g.ellipse(5.6 + fx, -35, 2.2, 1.4, 0, 0, 6.3); g.fill();
-  for (const ex of [-3.4, 3.4]) { g.fillStyle = '#2a1f1c'; g.beginPath(); g.ellipse(ex + fx, ey, 1.6, 2, 0, 0, 6.3); g.fill(); g.fillStyle = '#fff'; g.beginPath(); g.arc(ex + fx - 0.5, ey - 0.9, 0.6, 0, 6.3); g.fill(); }
-  g.fillStyle = '#e09a7c'; g.beginPath(); g.arc(fx * 1.2, -36, 0.8, 0, 6.3); g.fill();
-  // an open "wow" smile
-  g.fillStyle = '#a5404a'; g.beginPath(); g.ellipse(fx + 0.2, -32.8, 1.6, 1.3, 0, 0, 6.3); g.fill();
-  g.fillStyle = '#c2185b'; g.beginPath(); g.arc(fx, -43.2, 0.55, 0, 6.3); g.fill();
-  g.restore();
-  g.restore();
-}
-
-// dad: peach chikankari kurta with a mandarin collar, beige trousers, white sneakers, short dark hair, trimmed beard
-const DAD = { SK: '#d49a72', SKD: '#b97f5a', FACE: '#dda57c', HAIR: '#17110f', BEARD: '#2a1e18', K: '#f39a84', KD: '#d97a66', KL: '#ffb8a2', PANT: '#d9c3a2', PANTD: '#bba383' };
-function sparklerTip(t) { const a = W2 * 4 * t; return [24 + Math.cos(a) * 3.2 + 9, -94 + Math.sin(a) * 3.2 - 15]; }
-function drawDad(g, t) {
-  const { SK, SKD, FACE, HAIR, BEARD, K, KD, KL, PANT, PANTD } = DAD;
-  // trousers and white sneakers
-  g.fillStyle = PANTD; g.beginPath(); g.moveTo(-8.5, -34); g.lineTo(-1, -34); g.lineTo(-1.6, -4); g.lineTo(-8, -4); g.fill();
-  g.fillStyle = PANT; g.beginPath(); g.moveTo(1, -34); g.lineTo(8.5, -34); g.lineTo(8.2, -4); g.lineTo(1.6, -4); g.fill();
-  for (const x of [-5.2, 5.2]) { ell(g, x, -2.2, 5.6, 2.8, '#f4f4f2', 0.3, 0.2); g.fillStyle = '#9aa0a6'; g.fillRect(x - 5, -1, 10, 1.1); g.strokeStyle = '#c9ccd0'; g.lineWidth = 0.4; g.beginPath(); g.moveTo(x - 1.5, -4); g.lineTo(x + 1.5, -3); g.moveTo(x - 1.5, -3); g.lineTo(x + 1.5, -4); g.stroke(); }
-  // the kurta: straight, knee length, side slits
-  const kurta = () => { g.beginPath(); g.moveTo(-12, -76); g.lineTo(12, -76); g.quadraticCurveTo(14.5, -60, 14.2, -48); g.lineTo(15, -27); g.quadraticCurveTo(0, -24.5, -15, -27); g.lineTo(-14.2, -48); g.quadraticCurveTo(-14.5, -60, -12, -76); g.closePath(); };
-  kurta(); const gr = g.createLinearGradient(-15, 0, 15, 0); gr.addColorStop(0, KD); gr.addColorStop(0.55, K); gr.addColorStop(1, KL); g.fillStyle = gr; g.fill();
-  g.save(); kurta(); g.clip();
-  // chikankari lattice: little diamonds with a dot in each
-  g.strokeStyle = 'rgba(255,236,226,.55)'; g.lineWidth = 0.45;
-  for (let k = -40; k < 40; k += 3.6) { g.beginPath(); g.moveTo(k, -78); g.lineTo(k + 54, -24); g.stroke(); g.beginPath(); g.moveTo(k, -78); g.lineTo(k - 54, -24); g.stroke(); }
-  g.fillStyle = 'rgba(255,240,232,.6)'; for (let y = -76; y < -24; y += 3.6) for (let x = -16 + ((y / 3.6) & 1) * 1.8; x < 16; x += 3.6) { g.beginPath(); g.arc(x, y + 1.8, 0.32, 0, 6.3); g.fill(); }
-  g.fillStyle = 'rgba(150,60,40,.22)'; g.fillRect(-15, -27, 30, 1.2);
-  g.restore();
-  // side slits
-  g.strokeStyle = KD; g.lineWidth = 0.6; for (const sd of [-1, 1]) { g.beginPath(); g.moveTo(sd * 14.4, -40); g.lineTo(sd * 15, -27); g.stroke(); }
-  // embroidered placket
-  g.fillStyle = '#ffc9b8'; g.fillRect(-1.6, -75, 3.2, 21);
-  g.fillStyle = '#f7e6d8'; for (let y = -74; y < -55; y += 1.6) { g.beginPath(); g.arc(-0.8, y, 0.35, 0, 6.3); g.arc(0.8, y + 0.8, 0.35, 0, 6.3); g.fill(); }
-  g.strokeStyle = KD; g.lineWidth = 0.4; g.strokeRect(-1.6, -75, 3.2, 21);
-  // neck and mandarin collar
-  g.fillStyle = SKD; g.fillRect(-3, -82, 6, 6);
-  g.fillStyle = K; g.beginPath(); g.moveTo(-5.4, -80.4); g.lineTo(-0.2, -78.6); g.lineTo(-0.2, -75); g.lineTo(-6, -76.4); g.closePath(); g.fill(); g.beginPath(); g.moveTo(5.4, -80.4); g.lineTo(0.2, -78.6); g.lineTo(0.2, -75); g.lineTo(6, -76.4); g.closePath(); g.fill();
-  g.fillStyle = 'rgba(255,240,230,.75)'; for (let i = 0; i < 4; i++) { g.beginPath(); g.arc(-4.6 + i * 1.2, -78.6 + i * 0.4, 0.3, 0, 6.3); g.arc(4.6 - i * 1.2, -78.6 + i * 0.4, 0.3, 0, 6.3); g.fill(); }
-  // left arm relaxed at his side (with the wedding ring)
-  const sleeve = (x0, y0, x1, y1, bend) => { limb(g, x0, y0, x1, y1, bend, 7, KD, K); };
-  sleeve(-12.5, -73, -16.5, -42, -2); sph(g, -16.8, -39.4, 3, SK, 0.3, 0.25);
-  g.fillStyle = '#e8b84a'; g.beginPath(); g.arc(-15, -38.6, 0.7, 0, 6.3); g.fill();
-  // right arm raised, twirling a phuljhadi
-  const a = W2 * 4 * t, hx = 24 + Math.cos(a) * 3.2, hy = -94 + Math.sin(a) * 3.2;
-  sleeve(12.5, -73, hx - 1, hy + 4, 4); sph(g, hx, hy, 3, SK, 0.3, 0.25);
-  const [sx, sy] = sparklerTip(t);
-  g.strokeStyle = '#6b6b6b'; g.lineWidth = 0.9; g.beginPath(); g.moveTo(hx - 1.5, hy + 2.5); g.lineTo(sx, sy); g.stroke();
-  g.strokeStyle = '#3a3a3a'; g.lineWidth = 1.6; g.beginPath(); g.moveTo(hx + 4.5, hy - 5.5); g.lineTo(sx, sy); g.stroke();
-  // head
-  g.save(); g.translate(0, -94); g.scale(1, 1.12); sph(g, 0, 0, 11.2, FACE, 0.25, 0.18); g.restore();
-  for (const sd of [-1, 1]) sph(g, sd * 11, -93, 2.4, SKD, 0.2, 0.2);
-  // short trimmed beard and moustache along the jaw
-  g.fillStyle = hexA(BEARD, 0.74); g.beginPath();
-  g.moveTo(-10.6, -95); g.quadraticCurveTo(-11, -86, -6, -82.2); g.quadraticCurveTo(0, -78.6, 6, -82.2); g.quadraticCurveTo(11, -86, 10.6, -95);
-  g.quadraticCurveTo(9.4, -89, 6, -87.6); g.quadraticCurveTo(0, -89.2, -6, -87.6); g.quadraticCurveTo(-9.4, -89, -10.6, -95); g.closePath(); g.fill();
-  g.beginPath(); g.moveTo(-4.6, -88.2); g.quadraticCurveTo(0, -90.6, 4.6, -88.2); g.quadraticCurveTo(0, -89, -4.6, -88.2); g.fill();
-  g.fillStyle = hexA(BEARD, 0.55); g.beginPath(); g.ellipse(0, -84.6, 1.6, 1.6, 0, 0, 6.3); g.fill();
-  // smile
-  g.fillStyle = '#7a2e2a'; g.beginPath(); g.moveTo(-3.6, -87.4); g.quadraticCurveTo(0, -83.4, 3.6, -87.4); g.quadraticCurveTo(0, -86.6, -3.6, -87.4); g.fill();
-  g.fillStyle = '#fff'; g.beginPath(); g.moveTo(-3, -87.2); g.quadraticCurveTo(0, -85.4, 3, -87.2); g.quadraticCurveTo(0, -86.6, -3, -87.2); g.fill();
-  // eyes, brows, nose
-  const ey = -96.4;
-  for (const ex of [-4.4, 4.4]) {
-    g.fillStyle = '#1e1512'; g.beginPath(); g.ellipse(ex + 0.8, ey, 1.55, 1.85, 0, 0, 6.3); g.fill();
-    g.fillStyle = '#fff'; g.beginPath(); g.arc(ex + 0.3, ey - 0.7, 0.55, 0, 6.3); g.fill();
-    g.strokeStyle = '#1a1210'; g.lineWidth = 1.3; g.lineCap = 'round'; g.beginPath(); g.moveTo(ex + 0.8 - 2.4, ey - 3.6); g.quadraticCurveTo(ex + 0.8, ey - 4.8, ex + 0.8 + 2.4, ey - 3.7); g.stroke();
-  }
-  g.strokeStyle = '#b07a58'; g.lineWidth = 0.75; g.beginPath(); g.moveTo(1.2, -95); g.quadraticCurveTo(2.4, -92, 1, -91.4); g.stroke();
-  g.fillStyle = 'rgba(220,110,100,.22)'; g.beginPath(); g.ellipse(-7, -91.5, 2.4, 1.4, 0, 0, 6.3); g.ellipse(8, -91.5, 2.4, 1.4, 0, 0, 6.3); g.fill();
-  // hair: short sides, fuller on top and swept back
-  g.fillStyle = HAIR; g.beginPath();
-  g.moveTo(-11.4, -96); g.quadraticCurveTo(-12.8, -104, -10.4, -109); g.quadraticCurveTo(-7, -115.6, 0, -116.2); g.quadraticCurveTo(6, -118.4, 10.2, -114.6); g.quadraticCurveTo(13.2, -110, 12.4, -103); g.quadraticCurveTo(12.2, -99, 11.4, -96);
-  g.quadraticCurveTo(10.4, -101, 9.6, -103); g.quadraticCurveTo(3, -105.6, -4, -104.6); g.quadraticCurveTo(-8.6, -103.6, -9.8, -101); g.quadraticCurveTo(-10.6, -99, -11.4, -96); g.closePath(); g.fill();
-  g.strokeStyle = 'rgba(120,110,130,.35)'; g.lineWidth = 0.7; g.lineCap = 'round'; for (let i = 0; i < 3; i++) { g.beginPath(); g.moveTo(-5 + i * 4, -106.5); g.quadraticCurveTo(-3 + i * 4, -112, 3 + i * 3, -114.5 + i * 0.6); g.stroke(); }
-  g.fillStyle = hexA(HAIR, 0.55); for (const sd of [-1, 1]) { g.beginPath(); g.moveTo(sd * 11.4, -96); g.lineTo(sd * 11, -101); g.lineTo(sd * 10.2, -96.5); g.fill(); }
-}
-function sparks(g, x, y, k, t) {
-  g.save(); g.globalCompositeOperation = 'lighter';
-  glow(g, x, y, 26 * k, '#fff0b0', 0.55); glow(g, x, y, 8 * k, '#ffffff', 0.9);
-  g.lineCap = 'round';
-  for (let j = 0; j < 36; j++) {
-    const ph = t * 2 + j * 0.1373, cyc = Math.floor(ph), p = ph - cyc;
-    const a = hash(j * 31 + cyc * 7) * 6.2832, L = (10 + hash(j + cyc * 3) * 16) * k, d0 = p * L, d1 = d0 + 4 * k;
-    const gy = p * p * 6 * k, al = (1 - p);
-    g.strokeStyle = j % 3 ? `rgba(255,236,170,${al})` : `rgba(255,255,255,${al})`; g.lineWidth = 0.9 * k;
-    g.beginPath(); g.moveTo(x + Math.cos(a) * d0, y + Math.sin(a) * d0 + gy); g.lineTo(x + Math.cos(a) * d1, y + Math.sin(a) * d1 + gy); g.stroke();
-    if (hash(j * 5 + cyc) > 0.6 && p > 0.5) { g.fillStyle = `rgba(255,250,220,${al})`; star(g, x + Math.cos(a) * d1, y + Math.sin(a) * d1 + gy, 1.6 * k, j); }
-  }
+  // little floating diyas, bobbing
+  for (const [dx, dy, i] of [[-12, -8.6, 0], [8, -4, 1], [20, -9.4, 2]]) diya(g, dx - 3, dy + Math.sin(W2 * 2 * t + i * 2) * 0.4, 0.7, t, 400 + i);
   g.restore();
 }
 
 // ---------------------------------------------------------------- layout
-const FAM = { dad: [112, 398, 1.42], girl: [160, 408, 1.42], mum: [204, 398, 1.42] };
 const RANG = [352, 360];
 const RING = []; for (let i = 0; i < 10; i++) { const a = i * 6.2832 / 10 + 0.31; RING.push([RANG[0] + Math.cos(a) * 80 - 4, RANG[1] + Math.sin(a) * 33 + 2]); }
 const FRONT = []; for (let i = 0; i < 15; i++) { const [x, y] = P(0.05 + i * 0.9 / 14, 0.955); FRONT.push([x - 4, y]); }
@@ -574,11 +425,9 @@ function render(t) {
   RING.filter(p => p[1] < RANG[1]).forEach(([x, y], i) => diya(g, x, y, 0.85, t, i));
   diya(g, RANG[0] - 6, RANG[1] + 1, 1.0, t, 99);
   RING.filter(p => p[1] >= RANG[1]).forEach(([x, y], i) => diya(g, x, y, 0.85, t, i + 20));
-  // family (back to front: dad, mum, daughter)
-  const fig = (key, fn) => { const [x, y, k] = FAM[key]; g.save(); g.translate(x, y); g.scale(k, k); g.fillStyle = 'rgba(40,15,10,.3)'; g.beginPath(); g.ellipse(0, 0, 16, 3.4, 0, 0, 6.3); g.fill(); fn(g, t); g.restore(); };
-  fig('dad', drawDad);
-  fig('mum', (g, t) => { drawMom(g, t); drawMomHead(g, t); drawThali(g, t); });
-  fig('girl', drawGirl);
+  // a tall brass samai and an urli of floating diyas where the courtyard opens out
+  samai(g, 108, 392, 1.3, t);
+  urli(g, 186, 378, t);
   FRONT.forEach(([x, y], i) => diya(g, x, y, 1.0, t, 200 + i));
   // lamplight
   g.save(); g.globalCompositeOperation = 'lighter';
@@ -586,7 +435,6 @@ function render(t) {
   FRONT.forEach(([x, y], i) => diyaGlow(g, x, y, 1, t, i));
   glow(g, 270, 278, 70, '#ff9a3a', 0.12);
   g.restore();
-  const [jx, jy, jk] = FAM.dad, [sx, sy] = sparklerTip(t); sparks(g, jx + sx * jk, jy + sy * jk, 1.15, t);
   if (GREET) greeting(g, t);
 }
 
