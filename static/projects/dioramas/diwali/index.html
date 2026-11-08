@@ -335,6 +335,16 @@ function rangoli(g, x, y, t) {
 }
 
 // ---------------------------------------------------------------- the family
+// big glossy animated-film eyes: white, brown iris, pupil, two catchlights, a dark lid line
+function bigEye(g, x, y, rx, ry, iris, lash) {
+  g.save(); g.fillStyle = '#fbf7f2'; g.beginPath(); g.ellipse(x, y, rx, ry, 0, 0, 6.3); g.fill(); g.clip();
+  const r = ry * 0.86; sph(g, x + 0.15, y + 0.2, r, iris, 0.3, 0.45);
+  g.fillStyle = '#120a08'; g.beginPath(); g.arc(x + 0.15, y + 0.25, r * 0.5, 0, 6.3); g.fill();
+  g.fillStyle = '#fff'; g.beginPath(); g.arc(x - r * 0.35, y - r * 0.4, r * 0.32, 0, 6.3); g.fill(); g.beginPath(); g.arc(x + r * 0.4, y + r * 0.35, r * 0.14, 0, 6.3); g.fill();
+  g.restore();
+  g.strokeStyle = '#1a100c'; g.lineWidth = lash ? 0.9 : 0.7; g.lineCap = 'round'; g.beginPath(); g.ellipse(x, y, rx, ry, 0, Math.PI * 1.05, Math.PI * 1.95); g.stroke();
+  if (lash) { const sd = lash; g.lineWidth = 0.55; g.beginPath(); g.moveTo(x + sd * rx * 0.95, y - ry * 0.3); g.lineTo(x + sd * (rx + 1), y - ry * 0.75); g.moveTo(x + sd * rx * 0.7, y - ry * 0.75); g.lineTo(x + sd * (rx + 0.5), y - ry * 1.25); g.stroke(); }
+}
 const MOM = { SK: '#e3ad86', SKD: '#c58f6b', FACE: '#efc29e', HAIR: '#181212', K: '#c2185b', KD: '#8e0f42', KL: '#e04482', GOLD: '#e8b84a' };
 function drawMom(g, t) {
   const { SK, SKD, HAIR, K, KD, KL, GOLD } = MOM, f = 1;
@@ -361,23 +371,26 @@ function drawMom(g, t) {
   for (const sd of [-1, 1]) { g.fillStyle = sd > 0 ? '#c8205f' : '#8e0f42'; g.beginPath(); g.moveTo(sd * 7.5, -66.6); g.quadraticCurveTo(sd * 14.2, -66.2, sd * 14.4, -58); g.lineTo(sd * 10.4, -57); g.closePath(); g.fill(); g.fillStyle = GD; g.fillRect(sd > 0 ? 10.4 : -14.4, -58.6, 4, 0.9); }
   g.fillStyle = '#d9a07a'; g.fillRect(-10.6, -50.6, 21.2, 2.8); // a sliver of waist
   // the pallu: across her chest from the left shoulder, then falling to the knee with its wide paisley border
-  const pallu = () => { g.beginPath(); g.moveTo(-4, -67); g.lineTo(11, -67.4); g.quadraticCurveTo(15.6, -66, 16.6, -58); g.quadraticCurveTo(18, -40, 17.4, -22); g.lineTo(9.4, -24); g.quadraticCurveTo(10, -38, 8.8, -46); g.quadraticCurveTo(0, -46.5, -11, -47.6); g.lineTo(-10.8, -52); g.quadraticCurveTo(-6, -58, -4, -67); g.closePath(); };
+  const pallu = () => { g.beginPath(); g.moveTo(-4, -67); g.lineTo(11, -67.4); g.quadraticCurveTo(15.6, -66, 16.6, -58); g.quadraticCurveTo(18.6, -30, 18.8, -1.4); g.lineTo(10.2, -1.4); g.quadraticCurveTo(10.4, -30, 8.8, -46); g.quadraticCurveTo(0, -46.5, -11, -47.6); g.lineTo(-10.8, -52); g.quadraticCurveTo(-6, -58, -4, -67); g.closePath(); };
   pallu(); gr = g.createLinearGradient(-10, -66, 16, -30); gr.addColorStop(0, YL); gr.addColorStop(0.6, Y); gr.addColorStop(1, YD); g.fillStyle = gr; g.fill();
   g.save(); pallu(); g.clip();
   g.strokeStyle = 'rgba(190,110,0,.35)'; g.lineWidth = 0.5; for (let i = 0; i < 6; i++) { g.beginPath(); g.moveTo(-6 + i * 3, -66); g.quadraticCurveTo(-2 + i * 3, -56, -8 + i * 2.6, -47); g.stroke(); }
   // border running down the hanging edge
-  g.fillStyle = MG; g.beginPath(); g.moveTo(9.4, -66); g.quadraticCurveTo(13, -62, 13.4, -56); g.quadraticCurveTo(14.6, -40, 14, -22); g.lineTo(9, -22); g.quadraticCurveTo(10, -38, 8.8, -46); g.lineTo(4, -66); g.closePath(); g.fill();
-  g.strokeStyle = GD; g.lineWidth = 0.6; g.beginPath(); g.moveTo(13.4, -56); g.quadraticCurveTo(14.6, -40, 14, -22); g.stroke();
-  g.fillStyle = GD; for (let i = 0; i < 6; i++) { const y = -52 + i * 5, x = 11.4 + (y + 52) * 0.02; g.beginPath(); g.ellipse(x, y, 1.1, 1.8, 0.3, 0, 6.3); g.fill(); g.fillStyle = MG; g.beginPath(); g.arc(x - 0.2, y + 0.5, 0.5, 0, 6.3); g.fill(); g.fillStyle = GD; }
+  g.fillStyle = MG; g.beginPath(); g.moveTo(9.4, -66); g.quadraticCurveTo(13, -62, 13.4, -56); g.quadraticCurveTo(15.6, -30, 15.8, -1.4); g.lineTo(10.2, -1.4); g.quadraticCurveTo(10.4, -30, 8.8, -46); g.lineTo(4, -66); g.closePath(); g.fill();
+  g.strokeStyle = GD; g.lineWidth = 0.6; g.beginPath(); g.moveTo(13.4, -56); g.quadraticCurveTo(15.6, -30, 15.8, -1.4); g.stroke();
+  g.fillStyle = GD; for (let i = 0; i < 10; i++) { const y = -52 + i * 5, x = 12.4 + (y + 52) * 0.02; g.beginPath(); g.ellipse(x, y, 1.1, 1.8, 0.3, 0, 6.3); g.fill(); g.fillStyle = MG; g.beginPath(); g.arc(x - 0.2, y + 0.5, 0.5, 0, 6.3); g.fill(); g.fillStyle = GD; }
   // and along the diagonal across her waist
   g.fillStyle = MG; g.beginPath(); g.moveTo(-11, -47.6); g.quadraticCurveTo(0, -46.5, 8.8, -46); g.lineTo(9.4, -49.4); g.quadraticCurveTo(0, -50, -10.8, -51.2); g.closePath(); g.fill();
   g.fillStyle = GD; for (let i = 0; i < 8; i++) { g.beginPath(); g.arc(-9 + i * 2.4, -48.5 + i * 0.05, 0.5, 0, 6.3); g.fill(); }
-  g.fillStyle = MG; g.fillRect(16, -26, 2, 4); g.fillStyle = GD; g.fillRect(9.2, -23.4, 8.4, 1);
+  g.fillStyle = 'rgba(255,230,140,.6)'; for (let i = 0; i < 6; i++) { g.beginPath(); g.arc(17.2, -40 + i * 6.4, 0.8, 0, 6.3); g.fill(); }
   g.restore();
   // neck, collar, necklace
   g.fillStyle = SKD; g.fillRect(-2.4, -71, 4.8, 6);
   g.fillStyle = SK; g.beginPath(); g.moveTo(-4, -66.6); g.quadraticCurveTo(0, -60, 4, -66.6); g.closePath(); g.fill();
-  g.strokeStyle = GOLD; g.lineWidth = 0.9; g.beginPath(); g.moveTo(-3.6, -66.2); g.quadraticCurveTo(0, -61.6, 3.6, -66.2); g.stroke();
+  g.strokeStyle = GOLD; g.lineWidth = 1.6; g.beginPath(); g.moveTo(-2.8, -67.6); g.quadraticCurveTo(0, -65.6, 2.8, -67.6); g.stroke();
+  g.fillStyle = '#fff1b8'; for (let k = -2; k <= 2; k++) { g.beginPath(); g.arc(k * 1.1, -66.4 + Math.abs(k) * 0.25, 0.35, 0, 6.3); g.fill(); }
+  g.strokeStyle = '#151010'; g.lineWidth = 0.55; g.setLineDash([0.6, 0.5]); g.beginPath(); g.moveTo(-3.4, -66.6); g.quadraticCurveTo(-2.4, -60, 0.4, -57.4); g.quadraticCurveTo(2.6, -60, 3.4, -66.6); g.stroke(); g.setLineDash([]);
+  sph(g, 0.4, -56.6, 1.1, GOLD, 0.45, 0.3);
 }
 function drawMomHead(g, t) {
   const { HAIR, FACE } = MOM, f = 1;
@@ -395,11 +408,11 @@ function drawMomHead(g, t) {
   // long, loose hair falling in front of both shoulders, with soft flicked ends
   const sw = 0.6 * Math.sin(W2 * 2 * t);
   for (const sd of [-1, 1]) {
-    const wd = sd > 0 ? 1.15 : 1, end = sd > 0 ? -55 : -57;
+    const wd = 1.18, end = sd > 0 ? -52 : -54;
     g.fillStyle = HAIR; g.beginPath();
     g.moveTo(sd * 6, -90.6);
     g.bezierCurveTo(sd * 12.6, -89, sd * 13.4 * wd, -80, sd * 12.8 * wd, -72);
-    g.bezierCurveTo(sd * 12.4 * wd, -66, sd * 14.2 * wd + sw, -61, sd * 14.6 * wd + sw, end + 1);
+    g.bezierCurveTo(sd * 11.6 * wd, -66, sd * 14.8 * wd + sw, -60, sd * 13.8 * wd + sw, end + 1);
     g.quadraticCurveTo(sd * 13 * wd + sw, end - 1.6, sd * 11.2 + sw, end);
     g.quadraticCurveTo(sd * 10.2 + sw, end - 1.4, sd * 9.4 + sw * 0.6, end + 0.6);
     g.bezierCurveTo(sd * 10.2, -64, sd * 9.4, -72, sd * 9.8, -78);
@@ -409,18 +422,17 @@ function drawMomHead(g, t) {
     for (let j = 0; j < 2; j++) { g.beginPath(); g.moveTo(sd * (8 + j * 2), -88.6 + j); g.bezierCurveTo(sd * (12 + j * 0.6) * wd, -82, sd * (11 + j) * wd, -70, sd * (12.4 + j * 0.8) * wd + sw, end + 4); g.stroke(); }
   }
   const ey = -81.2;
-  for (const ex of [-4, 4]) {
-    g.fillStyle = '#231916'; g.beginPath(); g.ellipse(ex + fx, ey, 1.5, 1.85, 0, 0, 6.3); g.fill();
-    g.fillStyle = '#fff'; g.beginPath(); g.arc(ex + fx - 0.5, ey - 0.7, 0.55, 0, 6.3); g.fill();
-    g.strokeStyle = '#2a1d19'; g.lineWidth = 0.75; g.beginPath(); g.moveTo(ex + fx - 2, ey - 3.3); g.quadraticCurveTo(ex + fx, ey - 4.3, ex + fx + 2, ey - 3.4); g.stroke();
+  for (const ex of [-4.2, 4.2]) {
+    bigEye(g, ex + fx, ey, 2.3, 2.4, '#5a3220', ex < 0 ? -1 : 1);
+    g.strokeStyle = '#2a1d19'; g.lineWidth = 0.8; g.beginPath(); g.moveTo(ex + fx - 2.4, ey - 3.6); g.quadraticCurveTo(ex + fx + 0.2, ey - 5.4, ex + fx + 2.6, ey - 3.8); g.stroke();
   }
-  g.fillStyle = '#c2185b'; g.beginPath(); g.arc(fx, -86.6, 0.85, 0, 6.3); g.fill(); // bindi
-  g.fillStyle = 'rgba(232,120,110,.3)'; g.beginPath(); g.ellipse(-6.3 + fx, -75.8, 2.4, 1.5, 0, 0, 6.3); g.ellipse(6.3 + fx, -75.8, 2.4, 1.5, 0, 0, 6.3); g.fill();
+  g.fillStyle = '#d0102a'; g.beginPath(); g.arc(fx, -87.6, 1.05, 0, 6.3); g.fill(); // bindi
+  g.fillStyle = 'rgba(240,110,110,.38)'; g.beginPath(); g.ellipse(-6.6 + fx, -76, 2.6, 1.7, 0, 0, 6.3); g.ellipse(6.6 + fx, -76, 2.6, 1.7, 0, 0, 6.3); g.fill();
   g.strokeStyle = '#c4876a'; g.lineWidth = 0.7; g.beginPath(); g.moveTo(fx * 1.25, -79.5); g.quadraticCurveTo(fx * 1.25 + f * 0.9, -77, fx * 1.1, -76.6); g.stroke();
-  g.fillStyle = '#8c3a35'; g.beginPath(); g.moveTo(-4 + fx, -73.6); g.quadraticCurveTo(fx, -68.4, 4 + fx, -73.6); g.quadraticCurveTo(fx, -72.6, -4 + fx, -73.6); g.fill();
+  g.fillStyle = '#b8343f'; g.beginPath(); g.moveTo(-4 + fx, -73.6); g.quadraticCurveTo(fx, -68.4, 4 + fx, -73.6); g.quadraticCurveTo(fx, -72.6, -4 + fx, -73.6); g.fill();
   g.fillStyle = '#fff'; g.beginPath(); g.moveTo(-3.4 + fx, -73.3); g.quadraticCurveTo(fx, -71.2, 3.4 + fx, -73.3); g.quadraticCurveTo(fx, -72.5, -3.4 + fx, -73.3); g.fill();
   // jhumkas
-  for (const sd of [-1, 1]) { g.fillStyle = MOM.GOLD; g.beginPath(); g.arc(sd * 10.4, -76.5, 0.8, 0, 6.3); g.fill(); g.beginPath(); g.moveTo(sd * 10.4 - 1.5, -74); g.quadraticCurveTo(sd * 10.4, -76, sd * 10.4 + 1.5, -74); g.closePath(); g.fill(); }
+  for (const sd of [-1, 1]) { const x = sd * 10.6; sph(g, x, -77, 0.9, MOM.GOLD, 0.4, 0.3); g.fillStyle = MOM.GOLD; g.beginPath(); g.moveTo(x - 2, -72.6); g.quadraticCurveTo(x - 1.6, -75.8, x, -76); g.quadraticCurveTo(x + 1.6, -75.8, x + 2, -72.6); g.closePath(); g.fill(); g.fillStyle = '#c0392b'; g.beginPath(); g.arc(x, -74.4, 0.5, 0, 6.3); g.fill(); g.fillStyle = '#fff1b8'; for (let k = -1; k <= 1; k++) { g.beginPath(); g.arc(x + k * 1.2, -72.2, 0.35, 0, 6.3); g.fill(); } }
 }
 function drawThali(g, t) {
   // one hand carries the aarti plate, rocking it gently; the other reaches down for their daughter
@@ -455,24 +467,26 @@ function drawGirl(g, t) {
   g.fillStyle = '#ffe27a'; rrect(g, -6, -29.4, 12, 8.2, 2.4); g.fill();
   g.fillStyle = 'rgba(255,255,250,.8)'; for (let i = 0; i < 6; i++) { g.beginPath(); g.arc(-3.8 + (i % 3) * 3.8, -27 + (i / 3 | 0) * 3, 0.6, 0, 6.3); g.fill(); }
   g.fillStyle = '#f4c43a'; g.fillRect(-6, -22.4, 12, 1.1);
+  g.strokeStyle = '#e8b84a'; g.lineWidth = 0.4; g.beginPath(); g.moveTo(-2.6, -29.2); g.quadraticCurveTo(0, -24.6, 2.6, -29.2); g.stroke(); sph(g, 0, -25, 0.6, '#e8b84a', 0.4, 0.3);
   const arm = (x0, y0, x1, y1) => { limb(g, x0, y0, x1, y1, 0, 2.6, SKD, SK); sph(g, x1, y1, 1.6, SK, 0.3, 0.2); };
   arm(-6.6, -27, -12.4, -36.8);
   // a stack of bangles
   for (let i = 0; i < 3; i++) { g.strokeStyle = i === 1 ? '#e8b84a' : '#fff6e0'; g.lineWidth = 0.7; g.beginPath(); g.ellipse(-10.9 + i * 0.4, -34 + i * 0.9, 1.6, 0.7, -0.9, 0, 6.3); g.stroke(); }
   // holding mum's and dad's hands
   arm(6.6, -27, 12.4, -36.8);
+  for (let i = 0; i < 2; i++) { g.strokeStyle = i ? '#e8b84a' : '#fff6e0'; g.lineWidth = 0.7; g.beginPath(); g.ellipse(10.9 - i * 0.4, -34 + i * 0.9, 1.6, 0.7, 0.9, 0, 6.3); g.stroke(); }
   // head with two little pigtails tied in pink bobbles, tilted up
   g.save(); g.translate(0, -30); g.rotate(-0.08); g.translate(0, 30);
   const HB = '#24170f';
-  for (const sd of [-1, 1]) { sph(g, sd * 7.4, -49.6, 2.4, HB, 0.3, 0.25); sph(g, sd * 9.6, -49, 1.9, HB, 0.3, 0.25); sph(g, sd * 5.2, -48, 1.6, '#ff8fb0', 0.4, 0.25); }
-  g.fillStyle = HB; g.beginPath(); g.arc(0, -39, 10.2, Math.PI * 0.9, Math.PI * 2.1); g.lineTo(9.8, -33); g.lineTo(-9.8, -33); g.closePath(); g.fill();
+  g.fillStyle = HB; g.beginPath(); g.arc(0, -39.4, 10.8, Math.PI * 0.86, Math.PI * 2.14); g.quadraticCurveTo(11.6, -30, 10.4, -27.6); g.quadraticCurveTo(9, -28.6, 8, -29.6); g.lineTo(-8, -29.6); g.quadraticCurveTo(-9, -28.6, -10.4, -27.6); g.quadraticCurveTo(-11.6, -30, -10.6, -35.6); g.closePath(); g.fill();
   sph(g, 0, -38.5, 9.6, '#f2c3a0', 0.28, 0.2);
   g.fillStyle = HB; g.beginPath(); g.arc(0, -39.4, 10, Math.PI * 1.02, Math.PI * 1.98); g.quadraticCurveTo(6, -44.2, 1, -45.6); g.quadraticCurveTo(-5, -44.6, -10, -40.8); g.closePath(); g.fill();
-  g.fillStyle = HB; for (const sd of [-1, 1]) { g.beginPath(); g.moveTo(sd * 9.8, -40); g.quadraticCurveTo(sd * 10.8, -35, sd * 9.4, -31); g.lineTo(sd * 8.8, -36); g.closePath(); g.fill(); }
+  g.fillStyle = HB; for (const sd of [-1, 1]) { g.beginPath(); g.moveTo(sd * 9.8, -41); g.quadraticCurveTo(sd * 11, -34, sd * 10, -29.4); g.lineTo(sd * 8.6, -35); g.closePath(); g.fill(); }
+  sph(g, -4.6, -47.2, 1.3, '#ff9ab8', 0.4, 0.25); sph(g, -2.6, -47.8, 1.1, '#ffd84a', 0.4, 0.25); // little hair clips
   g.strokeStyle = 'rgba(170,140,150,.35)'; g.lineWidth = 0.5; g.beginPath(); g.arc(0, -39.4, 8.4, Math.PI * 1.25, Math.PI * 1.6); g.stroke();
   const fx = 1.3, ey = -39.2;
   g.fillStyle = 'rgba(240,120,120,.35)'; g.beginPath(); g.ellipse(-5.6 + fx, -35, 2.2, 1.4, 0, 0, 6.3); g.ellipse(5.6 + fx, -35, 2.2, 1.4, 0, 0, 6.3); g.fill();
-  for (const ex of [-3.4, 3.4]) { g.fillStyle = '#2a1f1c'; g.beginPath(); g.ellipse(ex + fx, ey, 1.6, 2, 0, 0, 6.3); g.fill(); g.fillStyle = '#fff'; g.beginPath(); g.arc(ex + fx - 0.5, ey - 0.9, 0.6, 0, 6.3); g.fill(); }
+  for (const ex of [-3.5, 3.5]) { bigEye(g, ex + fx, ey, 2.1, 2.5, '#4a2a18', ex < 0 ? -1 : 1); g.strokeStyle = '#2a1d19'; g.lineWidth = 0.55; g.beginPath(); g.moveTo(ex + fx - 1.6, ey - 3.7); g.quadraticCurveTo(ex + fx, ey - 4.6, ex + fx + 1.6, ey - 3.8); g.stroke(); }
   g.fillStyle = '#e09a7c'; g.beginPath(); g.arc(fx * 1.2, -36, 0.8, 0, 6.3); g.fill();
   // a big happy smile
   g.fillStyle = '#a5404a'; g.beginPath(); g.moveTo(-2.4 + fx, -33.6); g.quadraticCurveTo(fx, -30.4, 2.4 + fx, -33.6); g.quadraticCurveTo(fx, -33, -2.4 + fx, -33.6); g.fill();
@@ -494,9 +508,9 @@ function drawDad(g, t) {
   kurta(); const gr = g.createLinearGradient(-15, 0, 15, 0); gr.addColorStop(0, KD); gr.addColorStop(0.55, K); gr.addColorStop(1, KL); g.fillStyle = gr; g.fill();
   g.save(); kurta(); g.clip();
   // chikankari lattice: little diamonds with a dot in each
-  g.strokeStyle = 'rgba(255,236,226,.55)'; g.lineWidth = 0.45;
+  g.strokeStyle = 'rgba(255,236,226,.26)'; g.lineWidth = 0.4;
   for (let k = -40; k < 40; k += 3.6) { g.beginPath(); g.moveTo(k, -78); g.lineTo(k + 54, -24); g.stroke(); g.beginPath(); g.moveTo(k, -78); g.lineTo(k - 54, -24); g.stroke(); }
-  g.fillStyle = 'rgba(255,240,232,.6)'; for (let y = -76; y < -24; y += 3.6) for (let x = -16 + ((y / 3.6) & 1) * 1.8; x < 16; x += 3.6) { g.beginPath(); g.arc(x, y + 1.8, 0.32, 0, 6.3); g.fill(); }
+  g.fillStyle = 'rgba(255,240,232,.3)'; for (let y = -76; y < -24; y += 3.6) for (let x = -16 + ((y / 3.6) & 1) * 1.8; x < 16; x += 3.6) { g.beginPath(); g.arc(x, y + 1.8, 0.32, 0, 6.3); g.fill(); }
   g.fillStyle = 'rgba(150,60,40,.22)'; g.fillRect(-15, -27, 30, 1.2);
   g.restore();
   // side slits
@@ -530,20 +544,23 @@ function drawDad(g, t) {
   // eyes, brows, nose
   const ey = -96.4;
   for (const ex of [-4.4, 4.4]) {
-    g.fillStyle = '#1e1512'; g.beginPath(); g.ellipse(ex + 0.8, ey, 1.55, 1.85, 0, 0, 6.3); g.fill();
-    g.fillStyle = '#fff'; g.beginPath(); g.arc(ex + 0.3, ey - 0.7, 0.55, 0, 6.3); g.fill();
+    bigEye(g, ex + 0.8, ey, 2.2, 2.1, '#4a2e1e', 0);
     g.strokeStyle = '#1a1210'; g.lineWidth = 1.3; g.lineCap = 'round'; g.beginPath(); g.moveTo(ex + 0.8 - 2.4, ey - 3.6); g.quadraticCurveTo(ex + 0.8, ey - 4.8, ex + 0.8 + 2.4, ey - 3.7); g.stroke();
   }
   g.strokeStyle = '#b07a58'; g.lineWidth = 0.75; g.beginPath(); g.moveTo(1.2, -95); g.quadraticCurveTo(2.4, -92, 1, -91.4); g.stroke();
-  // rimless glasses with a faint violet tint
-  for (const ex of [-4.4, 4.4]) { g.fillStyle = 'rgba(190,170,230,.18)'; g.beginPath(); g.ellipse(ex + 0.8, ey + 0.2, 3.6, 2.8, 0, 0, 6.3); g.fill(); g.strokeStyle = 'rgba(235,235,245,.55)'; g.lineWidth = 0.45; g.stroke(); g.fillStyle = 'rgba(255,255,255,.5)'; g.beginPath(); g.ellipse(ex - 0.6, ey - 1.2, 1, 0.5, -0.5, 0, 6.3); g.fill(); }
-  g.strokeStyle = 'rgba(200,200,215,.8)'; g.lineWidth = 0.55; g.beginPath(); g.moveTo(-0.2, ey - 0.4); g.quadraticCurveTo(0.8, ey - 1.4, 1.8, ey - 0.4); g.moveTo(-6.6, ey - 0.6); g.lineTo(-10.6, ey - 0.2); g.moveTo(8.2, ey - 0.6); g.lineTo(10.8, ey - 0.2); g.stroke();
+  // black rectangular glasses
+  g.strokeStyle = '#141212'; g.lineWidth = 1.05; g.lineJoin = 'round';
+  for (const ex of [-4.4, 4.4]) { g.fillStyle = 'rgba(200,220,255,.12)'; rrect(g, ex + 0.8 - 4, ey - 2.9, 8, 5.6, 1.4); g.fill(); g.stroke(); g.strokeStyle = 'rgba(255,255,255,.45)'; g.lineWidth = 0.4; g.beginPath(); g.moveTo(ex - 1.6, ey - 2); g.lineTo(ex - 2.6, ey - 0.6); g.stroke(); g.strokeStyle = '#141212'; g.lineWidth = 1.05; }
+  g.beginPath(); g.moveTo(-0.4, ey - 1.2); g.quadraticCurveTo(0.8, ey - 2.2, 2, ey - 1.2); g.moveTo(-7.6, ey - 1.6); g.lineTo(-11, ey - 1.2); g.moveTo(9.2, ey - 1.6); g.lineTo(11.2, ey - 1.2); g.stroke();
   g.fillStyle = 'rgba(220,110,100,.22)'; g.beginPath(); g.ellipse(-7, -91.5, 2.4, 1.4, 0, 0, 6.3); g.ellipse(8, -91.5, 2.4, 1.4, 0, 0, 6.3); g.fill();
-  // hair: short sides, fuller on top and swept back
+  // hair: neat and short, side-parted and swept across
   g.fillStyle = HAIR; g.beginPath();
-  g.moveTo(-11.4, -96); g.quadraticCurveTo(-12.8, -104, -10.4, -109); g.quadraticCurveTo(-7, -115.6, 0, -116.2); g.quadraticCurveTo(6, -118.4, 10.2, -114.6); g.quadraticCurveTo(13.2, -110, 12.4, -103); g.quadraticCurveTo(12.2, -99, 11.4, -96);
-  g.quadraticCurveTo(10.4, -101, 9.6, -103); g.quadraticCurveTo(3, -105.6, -4, -104.6); g.quadraticCurveTo(-8.6, -103.6, -9.8, -101); g.quadraticCurveTo(-10.6, -99, -11.4, -96); g.closePath(); g.fill();
-  g.strokeStyle = 'rgba(120,110,130,.35)'; g.lineWidth = 0.7; g.lineCap = 'round'; for (let i = 0; i < 3; i++) { g.beginPath(); g.moveTo(-5 + i * 4, -106.5); g.quadraticCurveTo(-3 + i * 4, -112, 3 + i * 3, -114.5 + i * 0.6); g.stroke(); }
+  g.moveTo(-11.4, -96); g.quadraticCurveTo(-12.6, -103, -10.6, -108); g.quadraticCurveTo(-8.4, -111.8, -4.6, -111.6);
+  g.quadraticCurveTo(1, -115.4, 7, -114.4); g.quadraticCurveTo(12.6, -112.8, 12.6, -105.4); g.quadraticCurveTo(12.6, -100, 11.4, -96);
+  g.quadraticCurveTo(10.6, -100.6, 9.4, -102.8); g.quadraticCurveTo(4, -106.4, -3.6, -105.4); g.quadraticCurveTo(-8.4, -104.6, -9.8, -101); g.quadraticCurveTo(-10.6, -99, -11.4, -96); g.closePath(); g.fill();
+  g.strokeStyle = 'rgba(150,140,150,.45)'; g.lineWidth = 0.6; g.lineCap = 'round';
+  g.beginPath(); g.moveTo(-4.6, -111.4); g.quadraticCurveTo(-5.2, -108.4, -5.6, -106); g.stroke();
+  for (let i = 0; i < 3; i++) { g.beginPath(); g.moveTo(-3 + i * 3, -111 + i * 0.4); g.quadraticCurveTo(3 + i * 2.4, -113 + i * 0.6, 10 + i * 0.6, -109 + i * 1.6); g.stroke(); }
   g.fillStyle = hexA(HAIR, 0.55); for (const sd of [-1, 1]) { g.beginPath(); g.moveTo(sd * 11.4, -96); g.lineTo(sd * 11, -101); g.lineTo(sd * 10.2, -96.5); g.fill(); }
 }
 function sparks(g, x, y, k, t) {
